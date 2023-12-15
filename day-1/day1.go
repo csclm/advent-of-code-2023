@@ -11,15 +11,15 @@ import (
 )
 
 func main() {
-	f, _ := os.Open("./1.puzzle-input.txt")
+	f, _ := os.Open("../puzzle-inputs/day-1.txt")
 	total1 := 0
-	total2 := 0
+	//total2 := 0
 	for line := range iochan.DelimReader(f, '\n') {
 		total1 += numFromLinePart1(line)
-		total2 += numFromLinePart2(line)
+		//total2 += numFromLinePart2(line)
 	}
 	fmt.Printf("Total 1 is: %d\n", total1)
-	fmt.Printf("Total 2 is: %d\n", total2)
+	//fmt.Printf("Total 2 is: %d\n", total2)
 }
 
 func numFromLinePart1(line string) int {
