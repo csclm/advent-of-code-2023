@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	f, _ := os.Open("../puzzle-inputs/day-1.txt")
+	f, _ := os.Open("./input.txt")
 	total1 := 0
 	//total2 := 0
 	for line := range iochan.DelimReader(f, '\n') {

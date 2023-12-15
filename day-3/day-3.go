@@ -151,7 +151,7 @@ func (schematic *Schematic) getNumberAtLocation(location PartNumberLocation) int
 }
 
 func main() {
-	f, _ := os.Open("../puzzle-inputs/day-3.txt")
+	f, _ := os.Open("./input.txt")
 	schematic := readSchematicFromFile(f)
 	partNumberLocations := locateNumbers(&schematic)
 	partNumberTotal := 0

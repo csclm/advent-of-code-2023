@@ -27,7 +27,7 @@ type draw struct {
 }
 
 func main() {
-	f, _ := os.Open("../puzzle-inputs/day-2.txt")
+	f, _ := os.Open("./input.txt")
 	sumOfIds := 0
 	sumOfPowers := 0
 	part1Bag := drawBag{
