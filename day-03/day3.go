@@ -5,9 +5,6 @@ import (
 	"os"
 	"regexp"
 	"strconv"
-	"strings"
-
-	"github.com/mitchellh/iochan"
 )
 
 type Schematic struct {
@@ -26,17 +23,6 @@ func (schematic *Schematic) RuneAt(row int, column int) (rune, bool) {
 		return schematic.contents[row][column], true
 	} else {
 		return '\x00', false
-	}
-}
-
-func readSchematicFromFile(f *os.File) Schematic {
-	var contents [][]rune
-	for line := range iochan.DelimReader(f, '\n') {
-		schematicLine := strings.TrimSpace(line)
-		contents = append(contents, []rune(schematicLine))
-	}
-	return Schematic{
-		contents: contents,
 	}
 }
 
@@ -69,25 +55,6 @@ func (schematic *Schematic) isNumberAPart(location PartNumberLocation) bool {
 		if downInBounds && isSchematicSymbol(down) {
 			return true
 		}
-	}
-	return false
-}
-
-func isSchematicSymbol(char rune) bool {
-	if char == '.' {
-		return false
-	}
-	if char >= 33 && char <= 47 {
-		return true
-	}
-	if char >= 58 && char <= 64 {
-		return true
-	}
-	if char >= 133 && char <= 140 {
-		return true
-	}
-	if char == 126 {
-		return true
 	}
 	return false
 }

@@ -28,7 +28,7 @@ def parseDigitOrName(match: str):
         return 9
         
 
-with open("./1.puzzle-input.txt") as file:
+with open("./input.txt") as file:
     count = 0
     for line in file:
         matches = re.findall("(?=([0-9]|one|two|three|four|five|six|seven|eight|nine))", line,)
