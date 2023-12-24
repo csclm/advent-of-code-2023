@@ -12,21 +12,37 @@ import (
 func main() {
 	f, _ := os.Open("./input.txt")
 	numGrid := parseInput(f)
-	graph := ClumsyCrucibleGraph{numGrid}
 
-	// Way too slow, putting a pin in this one for now
-	cost := graphSearch[ClumsyCrucibleNode](
-		graph,
-		ClumsyCrucibleNode{
-			location:      Vec2{0, 0},
-			lastDirection: Vec2{0, 0},
-			momentum:      0,
-		},
-		func(ccn ClumsyCrucibleNode) bool {
-			return ccn.location == Vec2{graph.Width() - 1, graph.Height() - 1}
-		},
+	// Part 1 - must move 0-3 squares before turning
+	graphPart1 := ClumsyCrucibleGraph{contents: numGrid, maxStraightLine: 3, minStraightLine: 0}
+	costPart1 := graphSearch[ClumsyCrucibleNode](
+		graphPart1,
+		CrucibleStartingNode(),
+		IsFinishingNode(graphPart1),
 	)
-	fmt.Printf("Minimum heat loss is %d\n", cost)
+	fmt.Printf("Part 1 minimum heat loss is %d\n", costPart1)
+
+	// Part 2 - must move 4-10 squares before turning
+	graphPart2 := ClumsyCrucibleGraph{contents: numGrid, maxStraightLine: 10, minStraightLine: 4}
+	costPart2 := graphSearch[ClumsyCrucibleNode](
+		graphPart2,
+		CrucibleStartingNode(),
+		IsFinishingNode(graphPart2),
+	)
+	fmt.Printf("Part 2 minimum heat loss is %d\n", costPart2)
+}
+
+func CrucibleStartingNode() ClumsyCrucibleNode {
+	return ClumsyCrucibleNode{
+		location:      Vec2{0, 0},
+		lastDirection: Vec2{0, 0},
+		momentum:      0,
+	}
+}
+func IsFinishingNode(graph ClumsyCrucibleGraph) func(ClumsyCrucibleNode) bool {
+	return func(node ClumsyCrucibleNode) bool {
+		return node.location == Vec2{graph.Width() - 1, graph.Height() - 1}
+	}
 }
 
 func parseInput(f *os.File) [][]int {

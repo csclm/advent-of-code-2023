@@ -1,7 +1,9 @@
 package main
 
 type ClumsyCrucibleGraph struct {
-	contents [][]int
+	contents        [][]int
+	maxStraightLine int // minimum number of squares before a crucible can turn
+	minStraightLine int // maximum number of squares before a crucible can turn
 }
 
 func (g ClumsyCrucibleGraph) Width() int {
@@ -50,9 +52,13 @@ func (g ClumsyCrucibleGraph) neighbors(node ClumsyCrucibleNode) []SearchEdge[Clu
 		if dir == node.lastDirection {
 			newMomentum = node.momentum + 1
 		} else {
+			if node.momentum < g.minStraightLine && node.lastDirection != (Vec2{0, 0}) {
+				// Can't turn until we've moved far enough
+				continue
+			}
 			newMomentum = 1
 		}
-		if newMomentum > 3 {
+		if newMomentum > g.maxStraightLine {
 			// Can't move in the same direction more than 3 squares
 			continue
 		}

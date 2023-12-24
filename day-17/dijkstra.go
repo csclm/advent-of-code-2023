@@ -37,7 +37,7 @@ func graphSearch[TNode comparable](graph SearchGraph[TNode], start TNode, isEndS
 		if isEndState(node.node) {
 			return node.cost
 		}
-		visited.Insert(node)
+		visited.Insert(node.node)
 		for _, neighbor := range graph.neighbors(node.node) {
 			foundInFrontier := SearchEdge[TNode]{}
 			foundInFrontierIndex := -1
