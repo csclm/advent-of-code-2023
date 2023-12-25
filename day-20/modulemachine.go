@@ -115,12 +115,12 @@ func (mm ModuleMachine) simulate(initialPulse Pulse) SimulateResult {
 			lowPulseCount += len(desintationModuleNames)
 		}
 		for _, destinationName := range desintationModuleNames {
+			if destinationName == "rx" && !pulse.level {
+				sentLowPulseToRx = true
+			}
 			module, exists := mm.modules[destinationName]
 			if !exists {
 				continue
-			}
-			if destinationName == "rx" {
-				sentLowPulseToRx = true
 			}
 			sent, level := module.receivePulse(pulse)
 			if sent {
