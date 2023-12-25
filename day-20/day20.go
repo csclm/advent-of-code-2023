@@ -25,7 +25,7 @@ func main() {
 	fmt.Printf("Simulate result after 1000 presses - lows: %d, highs: %d\n", totalLows, totalHighs)
 	fmt.Printf("Multiplied %d\n", totalLows*totalHighs)
 
-	// TODO this is too slow. Looks like we need to make some kind of optimizer
+	// TODO this is too slow. Looks like we need to make some kind of optimizer.
 	// moduleMachinePart2 := mms.CreateModuleMachine()
 	// presses := 0
 	// for {
