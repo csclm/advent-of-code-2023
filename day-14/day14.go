@@ -1,4 +1,4 @@
-package main
+package day14
 
 import (
 	"fmt"
@@ -8,8 +8,7 @@ import (
 	"github.com/mitchellh/iochan"
 )
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	grid := parseInput(f)
 	slideStonesNorth(grid)
 	totalLoad := 0

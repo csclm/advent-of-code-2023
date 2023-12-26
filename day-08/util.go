@@ -1,4 +1,4 @@
-package main
+package day8
 
 // truncates a string such that it has no repetitions, e.g. ABCABC -> ABC
 func truncateSymmetricalString(directions string) string {
@@ -14,23 +14,4 @@ func findRotationalSymmetry(s string) int {
 		}
 	}
 	return len(s)
-}
-
-func gcd(a, b int) int {
-	for b != 0 {
-		t := b
-		b = a % b
-		a = t
-	}
-	return a
-}
-
-func lcm(a, b int, integers ...int) int {
-	result := a * b / gcd(a, b)
-
-	for i := 0; i < len(integers); i++ {
-		result = lcm(result, integers[i])
-	}
-
-	return result
 }

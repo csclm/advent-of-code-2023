@@ -1,4 +1,4 @@
-package main
+package day3
 
 func isSchematicSymbol(char rune) bool {
 	if char == '.' {

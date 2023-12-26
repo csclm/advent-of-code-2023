@@ -1,10 +1,6 @@
-package main
+package day22
 
 import "os"
-
-func main() {
-
-}
 
 func parseInput(f *os.File) {
 

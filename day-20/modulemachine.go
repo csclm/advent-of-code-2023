@@ -1,4 +1,4 @@
-package main
+package day20
 
 import "github.com/golang-collections/collections/queue"
 

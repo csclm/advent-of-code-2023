@@ -1,4 +1,4 @@
-package main
+package day7
 
 import (
 	"fmt"
@@ -6,19 +6,20 @@ import (
 	"slices"
 )
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	handsAndBids := parseInput(f)
 	totalWinningsPart1 := calculateWinnings(handsAndBids)
+	fmt.Printf("Total Winnings Part 1 %d\n", totalWinningsPart1)
+}
 
+func Part2(f *os.File) {
+	handsAndBids := parseInput(f)
 	handsAndBidsWithJokers := make([]HandAndBid, len(handsAndBids))
 	for i := range handsAndBids {
 		handsAndBidsWithJokers[i] = handsAndBids[i]
 		handsAndBidsWithJokers[i].hand = handsAndBidsWithJokers[i].hand.WithJacksAsJokers()
 	}
 	totalWinningsPart2 := calculateWinnings(handsAndBidsWithJokers)
-
-	fmt.Printf("Total Winnings Part 1 %d\n", totalWinningsPart1)
 	fmt.Printf("Total Winnings Part 2 %d\n", totalWinningsPart2)
 }
 

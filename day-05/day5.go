@@ -1,19 +1,13 @@
-package main
+package day5
 
 import (
+	"aoc-2023/aoc-lib"
 	"fmt"
 	"os"
 )
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	seeds, almanac := parseInput(f)
-
-	fmt.Printf("Part 1 lowest location number is %d\n", part1(&almanac, seeds))
-	fmt.Printf("Part 2 lowest location number is %d\n", part2(&almanac, seeds))
-}
-
-func part1(almanac *Almanac, seeds []int) int {
 	lowestLocation := 99999999999
 	for _, seed := range seeds {
 		soil := evaluateMapping(seed, almanac.seedToSoil)
@@ -25,13 +19,14 @@ func part1(almanac *Almanac, seeds []int) int {
 		location := evaluateMapping(humidity, almanac.humidityToLocation)
 		lowestLocation = min(lowestLocation, location)
 	}
-	return lowestLocation
+	fmt.Printf("Part 1 lowest location number is %d\n", lowestLocation)
 }
 
-func part2(almanac *Almanac, seedNumbers []int) int {
+func Part2(f *os.File) {
+	seedNumbers, almanac := parseInput(f)
 	lowestLocation := 99999999999
 	for i := 0; i < len(seedNumbers)/2; i++ {
-		seed := Range{min: seedNumbers[i*2], max: seedNumbers[i*2] + seedNumbers[i*2+1]}
+		seed := aoc.Range{Min: seedNumbers[i*2], Max: seedNumbers[i*2] + seedNumbers[i*2+1]}
 		soil := evaluateMappingWithRange(seed, almanac.seedToSoil)
 		fertilizer := evaluateMappingWithRanges(soil, almanac.soilToFertilizer)
 		water := evaluateMappingWithRanges(fertilizer, almanac.fertilizerToWater)
@@ -40,10 +35,10 @@ func part2(almanac *Almanac, seedNumbers []int) int {
 		humidity := evaluateMappingWithRanges(temperature, almanac.temperatureToHumidity)
 		location := evaluateMappingWithRanges(humidity, almanac.humidityToLocation)
 		for _, locationRange := range location {
-			lowestLocation = min(lowestLocation, locationRange.min)
+			lowestLocation = min(lowestLocation, locationRange.Min)
 		}
 	}
-	return lowestLocation
+	fmt.Printf("Part 2 lowest location number is %d\n", lowestLocation)
 }
 
 func evaluateMapping(input int, ranges []MappingRange) int {
@@ -56,8 +51,8 @@ func evaluateMapping(input int, ranges []MappingRange) int {
 	return input
 }
 
-func evaluateMappingWithRanges(inputRanges []Range, mappingRanges []MappingRange) []Range {
-	result := make([]Range, 0)
+func evaluateMappingWithRanges(inputRanges []aoc.Range, mappingRanges []MappingRange) []aoc.Range {
+	result := make([]aoc.Range, 0)
 	for _, inputRange := range inputRanges {
 		result = append(result, evaluateMappingWithRange(inputRange, mappingRanges)...)
 	}
@@ -68,14 +63,14 @@ func evaluateMappingWithRanges(inputRanges []Range, mappingRanges []MappingRange
 // It still gave me the right answer though, and I don't want to take the time to fix it right now
 // I'd have to make some kind of loop that figures out if the list of output ranges is contiguous, and if it's
 // not it should insert ranges where the gaps would be
-func evaluateMappingWithRange(inputRange Range, mappingRanges []MappingRange) []Range {
-	resultRanges := make([]Range, 0)
+func evaluateMappingWithRange(inputRange aoc.Range, mappingRanges []MappingRange) []aoc.Range {
+	resultRanges := make([]aoc.Range, 0)
 	for _, mappingRange := range mappingRanges {
 		overlap, doesOverlap := inputRange.Intersection(mappingRange.InputRange())
 		if doesOverlap {
-			mappedRange := Range{
-				min: overlap.min + mappingRange.destination - mappingRange.source,
-				max: overlap.max + mappingRange.destination - mappingRange.source,
+			mappedRange := aoc.Range{
+				Min: overlap.Min + mappingRange.destination - mappingRange.source,
+				Max: overlap.Max + mappingRange.destination - mappingRange.source,
 			}
 			resultRanges = append(resultRanges, mappedRange)
 		}
@@ -99,10 +94,10 @@ type MappingRange struct {
 	length      int
 }
 
-func (mr MappingRange) InputRange() Range {
-	return Range{
-		min: mr.source,
-		max: mr.source + mr.length,
+func (mr MappingRange) InputRange() aoc.Range {
+	return aoc.Range{
+		Min: mr.source,
+		Max: mr.source + mr.length,
 	}
 }
 

@@ -1,6 +1,7 @@
-package main
+package day16
 
 import (
+	"aoc-2023/aoc-lib"
 	"fmt"
 	"os"
 	"strings"
@@ -10,18 +11,19 @@ import (
 	"github.com/mitchellh/iochan"
 )
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	contraption := parseInput(f)
-	illuminatedCellsPart1 := simulateLightBounces(contraption, Ray{Vec2{0, 0}, Vec2{1, 0}})
-	illuminatedCellsPart2 := 0
+	illuminatedCellsPart1 := simulateLightBounces(contraption, Ray{aoc.NewVec2(0, 0), aoc.NewVec2(1, 0)})
+	fmt.Printf("Number of illuminated cells for part 1: %d\n", illuminatedCellsPart1)
+}
 
+func Part2(f *os.File) {
+	contraption := parseInput(f)
+	illuminatedCellsPart2 := 0
 	for entryRay := range allEntryRays(len(contraption[0]), len(contraption)) {
 		illuminatedForThisEntry := simulateLightBounces(contraption, entryRay)
 		illuminatedCellsPart2 = max(illuminatedCellsPart2, illuminatedForThisEntry)
 	}
-
-	fmt.Printf("Number of illuminated cells for part 1: %d\n", illuminatedCellsPart1)
 	fmt.Printf("Number of illuminated cells for part 2: %d\n", illuminatedCellsPart2)
 }
 
@@ -30,23 +32,23 @@ func allEntryRays(width int, height int) chan Ray {
 	go func() {
 		// Horizontal edges
 		for i := 1; i < width-1; i++ {
-			result <- Ray{position: Vec2{i, 0}, direction: Vec2{0, 1}}
-			result <- Ray{position: Vec2{i, height - 1}, direction: Vec2{0, -1}}
+			result <- Ray{position: aoc.NewVec2(i, 0), direction: aoc.NewVec2(0, 1)}
+			result <- Ray{position: aoc.NewVec2(i, height-1), direction: aoc.NewVec2(0, -1)}
 		}
 		// Vertical edges
 		for i := 1; i < height-1; i++ {
-			result <- Ray{position: Vec2{0, i}, direction: Vec2{1, 0}}
-			result <- Ray{position: Vec2{width - 1, i}, direction: Vec2{-1, 0}}
+			result <- Ray{position: aoc.NewVec2(0, i), direction: aoc.NewVec2(1, 0)}
+			result <- Ray{position: aoc.NewVec2(width-1, i), direction: aoc.NewVec2(-1, 0)}
 		}
 		// Corners
-		result <- Ray{position: Vec2{0, 0}, direction: Vec2{1, 0}}
-		result <- Ray{position: Vec2{0, 0}, direction: Vec2{0, 1}}
-		result <- Ray{position: Vec2{width - 1, 0}, direction: Vec2{-1, 0}}
-		result <- Ray{position: Vec2{width - 1, 0}, direction: Vec2{0, 1}}
-		result <- Ray{position: Vec2{width - 1, height - 1}, direction: Vec2{-1, 0}}
-		result <- Ray{position: Vec2{width - 1, height - 1}, direction: Vec2{0, -1}}
-		result <- Ray{position: Vec2{0, height - 1}, direction: Vec2{1, 0}}
-		result <- Ray{position: Vec2{0, height - 1}, direction: Vec2{0, -1}}
+		result <- Ray{position: aoc.NewVec2(0, 0), direction: aoc.NewVec2(1, 0)}
+		result <- Ray{position: aoc.NewVec2(0, 0), direction: aoc.NewVec2(0, 1)}
+		result <- Ray{position: aoc.NewVec2(width-1, 0), direction: aoc.NewVec2(-1, 0)}
+		result <- Ray{position: aoc.NewVec2(width-1, 0), direction: aoc.NewVec2(0, 1)}
+		result <- Ray{position: aoc.NewVec2(width-1, height-1), direction: aoc.NewVec2(-1, 0)}
+		result <- Ray{position: aoc.NewVec2(width-1, height-1), direction: aoc.NewVec2(0, -1)}
+		result <- Ray{position: aoc.NewVec2(0, height-1), direction: aoc.NewVec2(1, 0)}
+		result <- Ray{position: aoc.NewVec2(0, height-1), direction: aoc.NewVec2(0, -1)}
 		close(result)
 	}()
 	return result
@@ -62,20 +64,8 @@ func parseInput(f *os.File) [][]rune {
 }
 
 type Ray struct {
-	position  Vec2
-	direction Vec2
-}
-
-type Vec2 struct {
-	x, y int
-}
-
-func (v Vec2) Plus(other Vec2) Vec2 {
-	return Vec2{v.x + other.x, v.y + other.y}
-}
-
-func (v Vec2) IsInBoundingBox(width int, height int) bool {
-	return v.x >= 0 && v.x < width && v.y >= 0 && v.y < height
+	position  aoc.Vec2
+	direction aoc.Vec2
 }
 
 func simulateLightBounces(contraption [][]rune, entryRay Ray) int {
@@ -96,22 +86,22 @@ func simulateLightBounces(contraption [][]rune, entryRay Ray) int {
 			continue
 		}
 		evaluated.Insert(ray)
-		runeAtRay := contraption[ray.position.y][ray.position.x]
+		runeAtRay := contraption[ray.position.Y][ray.position.X]
 		switch runeAtRay {
 		case '.':
 		case '/':
-			ray.direction = Vec2{-ray.direction.y, -ray.direction.x}
+			ray.direction = aoc.NewVec2(-ray.direction.Y, -ray.direction.X)
 		case '\\':
-			ray.direction = Vec2{ray.direction.y, ray.direction.x}
+			ray.direction = aoc.NewVec2(ray.direction.Y, ray.direction.X)
 		case '-':
-			if ray.direction.y != 0 {
-				ray.direction = Vec2{1, 0}
-				rays.Enqueue(Ray{ray.position.Plus(Vec2{-1, 0}), Vec2{-1, 0}})
+			if ray.direction.Y != 0 {
+				ray.direction = aoc.NewVec2(1, 0)
+				rays.Enqueue(Ray{ray.position.Plus(aoc.NewVec2(-1, 0)), aoc.NewVec2(-1, 0)})
 			}
 		case '|':
-			if ray.direction.x != 0 {
-				ray.direction = Vec2{0, 1}
-				rays.Enqueue(Ray{ray.position.Plus(Vec2{0, -1}), Vec2{0, -1}})
+			if ray.direction.X != 0 {
+				ray.direction = aoc.NewVec2(0, 1)
+				rays.Enqueue(Ray{ray.position.Plus(aoc.NewVec2(0, -1)), aoc.NewVec2(0, -1)})
 			}
 		default:
 			panic("unrecognized contraption rune")

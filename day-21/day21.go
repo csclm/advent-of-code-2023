@@ -1,6 +1,7 @@
-package main
+package day21
 
 import (
+	"aoc-2023/aoc-lib"
 	"fmt"
 	"os"
 	"strings"
@@ -9,8 +10,7 @@ import (
 	"github.com/mitchellh/iochan"
 )
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	grid := parseInput(f)
 
 	currentLocations := set.New()
@@ -22,10 +22,10 @@ func main() {
 	for i := 0; i < 64; i++ {
 		newLocations := set.New()
 		currentLocations.Do(func(i interface{}) {
-			location := i.(Vec2)
-			for _, dir := range cardinalDirections() {
+			location := i.(aoc.Vec2)
+			for _, dir := range aoc.CardinalDirections() {
 				newLocation := location.Plus(dir)
-				if grid[newLocation.y][newLocation.x] == '.' {
+				if grid[newLocation.Y][newLocation.X] == '.' {
 					newLocations.Insert(newLocation)
 				}
 			}
@@ -46,12 +46,12 @@ func replaceOccurrences(grid [][]rune, runeToFind rune, runeToReplaceWith rune) 
 	}
 }
 
-func findOccurrences(grid [][]rune, runeToFind rune) []Vec2 {
-	result := make([]Vec2, 0)
+func findOccurrences(grid [][]rune, runeToFind rune) []aoc.Vec2 {
+	result := make([]aoc.Vec2, 0)
 	for row := range grid {
 		for col := range grid[row] {
 			if grid[row][col] == runeToFind {
-				result = append(result, Vec2{col, row})
+				result = append(result, aoc.NewVec2(col, row))
 			}
 		}
 	}

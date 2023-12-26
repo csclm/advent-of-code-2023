@@ -1,6 +1,7 @@
-package main
+package day8
 
 import (
+	"aoc-2023/aoc-lib"
 	"slices"
 
 	"github.com/golang-collections/collections/set"
@@ -129,7 +130,7 @@ func (path VisitPath) Join(other VisitPath) VisitPath {
 		}
 	}
 
-	cycleLength := lcm(early.cycleLength, late.cycleLength)
+	cycleLength := aoc.Lcm(early.cycleLength, late.cycleLength)
 	earlyMultiple := cycleLength / early.cycleLength
 	lateMultiple := cycleLength / late.cycleLength
 

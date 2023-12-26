@@ -1,4 +1,4 @@
-package main
+package day12
 
 import (
 	"fmt"
@@ -38,10 +38,8 @@ func (sr SpringRecord) Unfolded() SpringRecord {
 	}
 }
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	records := parseInput(f)
-	fmt.Printf("%d Records\n", len(records))
 	sumOfPossibilities := 0
 	for i, record := range records {
 		solutions := possibleSolutions(record)
@@ -49,7 +47,10 @@ func main() {
 		fmt.Printf("Record %d has %d possibilities\n", i, solutions)
 	}
 	fmt.Printf("Sum of possibilities: %d\n", sumOfPossibilities)
+}
 
+func Part2(f *os.File) {
+	records := parseInput(f)
 	sumOfUnfoldedPossibilities := 0
 	for i, record := range records {
 		solutions := possibleSolutions(record.Unfolded())

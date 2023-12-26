@@ -1,4 +1,4 @@
-package main
+package day11
 
 import (
 	"fmt"
@@ -19,13 +19,13 @@ type Universe struct {
 	galaxies      []Vec2
 }
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	universe := parseGalaxies(f)
 	universe.expand(2)
 	fmt.Printf("Sum of path distances for 1x scale: %d\n", universe.sumOfPathDistancesBetweenGalaxies())
+}
 
-	f.Seek(0, 0)
+func Part2(f *os.File) {
 	universe2 := parseGalaxies(f)
 	universe2.expand(1000000)
 	fmt.Printf("Sum of path distances for 1000000x scale: %d\n", universe2.sumOfPathDistancesBetweenGalaxies())

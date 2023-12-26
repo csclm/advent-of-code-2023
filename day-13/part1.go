@@ -1,4 +1,4 @@
-package main
+package day13
 
 func findReflectionColumns(grid Grid) []int {
 	result := make([]int, 0)

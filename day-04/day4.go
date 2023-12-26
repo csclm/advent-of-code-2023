@@ -1,4 +1,4 @@
-package main
+package day4
 
 import (
 	"fmt"
@@ -9,15 +9,23 @@ import (
 	"github.com/mitchellh/iochan"
 )
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
+	cards := parseInput(f)
+	fmt.Printf("Total Points: %d\n", totalPoints(cards))
+}
+
+func Part2(f *os.File) {
+	cards := parseInput(f)
+	fmt.Printf("Total Cards: %d\n", totalCards(cards))
+}
+
+func parseInput(f *os.File) []Card {
 	cards := make([]Card, 1)
 	for line := range iochan.DelimReader(f, '\n') {
 		card := parseCard(line)
 		cards = append(cards, card)
 	}
-	fmt.Printf("Total Points: %d\n", totalPoints(cards))
-	fmt.Printf("Total Cards: %d\n", totalCards(cards))
+	return cards
 }
 
 // Part 1

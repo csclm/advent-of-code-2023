@@ -1,4 +1,4 @@
-package main
+package day13
 
 import (
 	"fmt"
@@ -47,8 +47,7 @@ func (g Grid) Print() {
 	}
 }
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	grids := parseInput(f)
 
 	summary := 0
@@ -62,7 +61,11 @@ func main() {
 			summary += (line + 1) * 100
 		}
 	}
+	fmt.Printf("Summary: %d\n", summary)
+}
 
+func Part2(f *os.File) {
+	grids := parseInput(f)
 	summarySmudged := 0
 	for _, grid := range grids {
 		vertical := findReflectionColumnsWithSmudge(grid)
@@ -74,7 +77,5 @@ func main() {
 			summarySmudged += (line + 1) * 100
 		}
 	}
-
-	fmt.Printf("Summary: %d\n", summary)
 	fmt.Printf("Summary with smudges: %d\n", summarySmudged)
 }

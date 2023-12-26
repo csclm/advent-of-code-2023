@@ -1,4 +1,4 @@
-package main
+package day15
 
 import (
 	"fmt"
@@ -9,18 +9,18 @@ import (
 	"github.com/mitchellh/iochan"
 )
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	inputs := parseInput(f)
-
 	totalHash := 0
 	for _, input := range inputs {
 		totalHash += HolidayHash(input)
 	}
-
-	hashMap := CreateHolidayHashmap(inputs)
-
 	fmt.Printf("Total of hashes %d\n", totalHash)
+}
+
+func Part2(f *os.File) {
+	inputs := parseInput(f)
+	hashMap := createHolidayHashmap(inputs)
 	fmt.Printf("Total focusing power %d\n", hashMap.TotalFocusingPower())
 }
 
@@ -36,7 +36,7 @@ func parseInput(f *os.File) []string {
 	return result
 }
 
-func CreateHolidayHashmap(lenses []string) HolidayHashmap {
+func createHolidayHashmap(lenses []string) HolidayHashmap {
 	holidayHashmap := HolidayHashmap{}
 	for _, lens := range lenses {
 		if lens[len(lens)-1] == '-' {

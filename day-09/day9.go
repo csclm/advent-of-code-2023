@@ -1,25 +1,25 @@
-package main
+package day9
 
 import (
 	"fmt"
 	"os"
 )
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	sequences := parseInputFile(f)
-
 	sumOfRightExtrapolated := 0
 	for _, sequence := range sequences {
 		sumOfRightExtrapolated += extrapolateRight(sequence)
 	}
+	fmt.Printf("Sum of extrapolated values to the right: %d \n", sumOfRightExtrapolated)
+}
 
+func Part2(f *os.File) {
+	sequences := parseInputFile(f)
 	sumOfLeftExtrapolated := 0
 	for _, sequence := range sequences {
 		sumOfLeftExtrapolated += extrapolateLeft(sequence)
 	}
-
-	fmt.Printf("Sum of extrapolated values to the right: %d \n", sumOfRightExtrapolated)
 	fmt.Printf("Sum of extrapolated values to the left: %d \n", sumOfLeftExtrapolated)
 }
 

@@ -1,4 +1,6 @@
-package main
+package day10
+
+import "aoc-2023/aoc-lib"
 
 type PipeGrid [][]PipeRune
 
@@ -59,23 +61,23 @@ func (pr PipeRune) Connections() PipeConnections {
 	}
 }
 
-func (pr PipeRune) ConnectsTo(direction Vec2) bool {
+func (pr PipeRune) ConnectsTo(direction aoc.Vec2) bool {
 	connections := pr.Connections()
-	if direction == (Vec2{1, 0}) {
+	if direction == (aoc.NewVec2(1, 0)) {
 		return connections.east
-	} else if direction == (Vec2{-1, 0}) {
+	} else if direction == (aoc.NewVec2(-1, 0)) {
 		return connections.west
-	} else if direction == (Vec2{0, 1}) {
+	} else if direction == (aoc.NewVec2(0, 1)) {
 		return connections.south
-	} else if direction == (Vec2{0, -1}) {
+	} else if direction == (aoc.NewVec2(0, -1)) {
 		return connections.north
 	} else {
 		return false
 	}
 }
 
-func (grid PipeGrid) MustFindStartingPoint() Vec2 {
-	for loc := range locationsInGrid(grid.Width(), grid.Height()) {
+func (grid PipeGrid) MustFindStartingPoint() aoc.Vec2 {
+	for loc := range aoc.LocationsInGrid(grid.Width(), grid.Height()) {
 		r, _ := grid.RuneAtLocation(loc)
 		if r == 'S' {
 			return loc
@@ -85,16 +87,16 @@ func (grid PipeGrid) MustFindStartingPoint() Vec2 {
 }
 
 // rune, in bounds?
-func (grid PipeGrid) RuneAtLocation(location Vec2) (PipeRune, bool) {
-	if location.x >= 0 && location.x < grid.Width() && location.y >= 0 && location.y < grid.Height() {
-		return PipeRune(grid[location.y][location.x]), true
+func (grid PipeGrid) RuneAtLocation(location aoc.Vec2) (PipeRune, bool) {
+	if location.X >= 0 && location.X < grid.Width() && location.Y >= 0 && location.Y < grid.Height() {
+		return PipeRune(grid[location.Y][location.X]), true
 	}
 	return '\x00', false
 }
 
-func (grid PipeGrid) SetRuneAt(location Vec2, r PipeRune) {
-	if location.x >= 0 && location.x < grid.Width() && location.y >= 0 && location.y < grid.Height() {
-		grid[location.y][location.x] = r
+func (grid PipeGrid) SetRuneAt(location aoc.Vec2, r PipeRune) {
+	if location.X >= 0 && location.X < grid.Width() && location.Y >= 0 && location.Y < grid.Height() {
+		grid[location.Y][location.X] = r
 	}
 }
 

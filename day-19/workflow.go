@@ -1,4 +1,4 @@
-package main
+package day19
 
 type Part struct {
 	x, m, a, s int

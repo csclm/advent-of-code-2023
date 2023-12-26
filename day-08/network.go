@@ -1,4 +1,4 @@
-package main
+package day8
 
 type Network struct {
 	nodes map[string]NodeLinks

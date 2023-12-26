@@ -1,4 +1,6 @@
-package main
+package day10
+
+import "aoc-2023/aoc-lib"
 
 func CalculateFurthestStep(grid PipeGrid) int {
 	loopLength := 0
@@ -8,8 +10,8 @@ func CalculateFurthestStep(grid PipeGrid) int {
 	return loopLength / 2
 }
 
-func LoopSteps(grid *PipeGrid) chan Vec2 {
-	result := make(chan Vec2)
+func LoopSteps(grid *PipeGrid) chan aoc.Vec2 {
+	result := make(chan aoc.Vec2)
 	go func() {
 		start := grid.MustFindStartingPoint()
 		previousLocation := start
@@ -27,12 +29,12 @@ func LoopSteps(grid *PipeGrid) chan Vec2 {
 	return result
 }
 
-func MustStepAlongPath(grid *PipeGrid, location Vec2, previousLocation Vec2) Vec2 {
+func MustStepAlongPath(grid *PipeGrid, location aoc.Vec2, previousLocation aoc.Vec2) aoc.Vec2 {
 	runeAtLocation, inBounds := grid.RuneAtLocation(location)
 	if !inBounds {
 		panic("stepped out of bounds!")
 	}
-	for _, dir := range cardinalDirections() {
+	for _, dir := range aoc.CardinalDirections() {
 		spotInDirection := location.Plus(dir)
 		if spotInDirection == previousLocation {
 			continue // don't step backwards

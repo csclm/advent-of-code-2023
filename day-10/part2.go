@@ -1,6 +1,8 @@
-package main
+package day10
 
 import (
+	"aoc-2023/aoc-lib"
+
 	"github.com/golang-collections/collections/queue"
 )
 
@@ -19,22 +21,22 @@ func CalculateEnclosedArea(grid *PipeGrid) int {
 func fillFromEdges(mask *PipeGrid) {
 	for i := 0; i < mask.Width(); i++ {
 		// no-op if already filled
-		fillFromLocation(mask, Vec2{i, 0})             // top edge
-		fillFromLocation(mask, Vec2{i, mask.Height()}) // bottom edge
+		fillFromLocation(mask, aoc.NewVec2(i, 0))             // top edge
+		fillFromLocation(mask, aoc.NewVec2(i, mask.Height())) // bottom edge
 	}
 	for i := 1; i < mask.Height()-1; i++ {
 		// no-op if already filled
-		fillFromLocation(mask, Vec2{0, i})            // left edge
-		fillFromLocation(mask, Vec2{mask.Width(), i}) // right edge
+		fillFromLocation(mask, aoc.NewVec2(0, i))            // left edge
+		fillFromLocation(mask, aoc.NewVec2(mask.Width(), i)) // right edge
 	}
 }
 
 // For an expanded grid, counts the number of 3x3 grid cells without a pipe in them
 func countUnfilledExpandedCells(expandedGrid *PipeGrid) int {
 	emptyCells := 0
-	for loc := range locationsInGrid(expandedGrid.Width()/3, expandedGrid.Height()/3) {
+	for loc := range aoc.LocationsInGrid(expandedGrid.Width()/3, expandedGrid.Height()/3) {
 		allAreEmpty := true
-		for cellLoc := range locationsInGrid(3, 3) {
+		for cellLoc := range aoc.LocationsInGrid(3, 3) {
 			r, _ := expandedGrid.RuneAtLocation(loc.Times(3).Plus(cellLoc))
 			if r != MaskEmptySpace {
 				allAreEmpty = false
@@ -77,31 +79,31 @@ L -> . o o
 */
 func makeExpandedMaskGrid(loopGrid *PipeGrid) PipeGrid {
 	expandedGrid := PipeGridInit(loopGrid.Width()*3, loopGrid.Height()*3, MaskEmptySpace)
-	for loc := range locationsInGrid(loopGrid.Width(), loopGrid.Height()) {
+	for loc := range aoc.LocationsInGrid(loopGrid.Width(), loopGrid.Height()) {
 		thisPipe, _ := loopGrid.RuneAtLocation(loc)
 		if thisPipe == '.' {
 			continue
 		}
 		connections := thisPipe.Connections()
-		expandedGrid.SetRuneAt(loc.Times(3).Plus(Vec2{1, 1}), MaskSolid)
+		expandedGrid.SetRuneAt(loc.Times(3).Plus(aoc.NewVec2(1, 1)), MaskSolid)
 		if connections.north {
-			expandedGrid.SetRuneAt(loc.Times(3).Plus(Vec2{1, 0}), MaskSolid)
+			expandedGrid.SetRuneAt(loc.Times(3).Plus(aoc.NewVec2(1, 0)), MaskSolid)
 		}
 		if connections.south {
-			expandedGrid.SetRuneAt(loc.Times(3).Plus(Vec2{1, 2}), MaskSolid)
+			expandedGrid.SetRuneAt(loc.Times(3).Plus(aoc.NewVec2(1, 2)), MaskSolid)
 		}
 		if connections.east {
-			expandedGrid.SetRuneAt(loc.Times(3).Plus(Vec2{2, 1}), MaskSolid)
+			expandedGrid.SetRuneAt(loc.Times(3).Plus(aoc.NewVec2(2, 1)), MaskSolid)
 		}
 		if connections.west {
-			expandedGrid.SetRuneAt(loc.Times(3).Plus(Vec2{0, 1}), MaskSolid)
+			expandedGrid.SetRuneAt(loc.Times(3).Plus(aoc.NewVec2(0, 1)), MaskSolid)
 		}
 	}
 	return expandedGrid
 }
 
 // Takes a PipeGrid mask and fills in a contiguous region that encloses the start point
-func fillFromLocation(mask *PipeGrid, start Vec2) {
+func fillFromLocation(mask *PipeGrid, start aoc.Vec2) {
 	startRune, startInBounds := mask.RuneAtLocation(start)
 	if !startInBounds {
 		return
@@ -113,8 +115,8 @@ func fillFromLocation(mask *PipeGrid, start Vec2) {
 	q := queue.New()
 	q.Enqueue(start)
 	for q.Len() != 0 {
-		location := q.Dequeue().(Vec2)
-		for _, dir := range cardinalDirections() {
+		location := q.Dequeue().(aoc.Vec2)
+		for _, dir := range aoc.CardinalDirections() {
 			nextLocation := location.Plus(dir)
 			nextRune, nextIsInBounds := mask.RuneAtLocation(nextLocation)
 			if nextIsInBounds && nextRune == MaskEmptySpace {

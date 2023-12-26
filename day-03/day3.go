@@ -1,4 +1,4 @@
-package main
+package day3
 
 import (
 	"fmt"
@@ -117,18 +117,21 @@ func (schematic *Schematic) getNumberAtLocation(location PartNumberLocation) int
 	return int(num)
 }
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	schematic := readSchematicFromFile(f)
 	partNumberLocations := locateNumbers(&schematic)
 	partNumberTotal := 0
-
 	for _, location := range partNumberLocations {
 		if schematic.isNumberAPart(location) {
 			partNumberTotal += schematic.getNumberAtLocation(location)
 		}
 	}
+	fmt.Printf("Sum of part numbers is %d\n", partNumberTotal)
+}
 
+func Part2(f *os.File) {
+	schematic := readSchematicFromFile(f)
+	partNumberLocations := locateNumbers(&schematic)
 	partNumberMap := generatePartNumberMap(&schematic, &partNumberLocations)
 	gearRatioTotal := 0
 	for row := range schematic.contents {
@@ -136,7 +139,5 @@ func main() {
 			gearRatioTotal += getGearingRatio(&schematic, &partNumberMap, row, col)
 		}
 	}
-
-	fmt.Printf("Sum of part numbers is %d\n", partNumberTotal)
 	fmt.Printf("Sum of gearing ratios is %d\n", gearRatioTotal)
 }

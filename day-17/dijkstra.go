@@ -1,6 +1,7 @@
-package main
+package day17
 
 import (
+	"aoc-2023/aoc-lib"
 	"container/heap"
 
 	"github.com/golang-collections/collections/set"
@@ -19,21 +20,20 @@ type SearchEdge[TNode comparable] struct {
 // Returns the minimum cost to go from the start node to an end node
 func graphSearch[TNode comparable](graph SearchGraph[TNode], start TNode, isEndState func(TNode) bool) int {
 	node := SearchEdge[TNode]{node: start, cost: 0}
-	frontierSlice := make([]SearchEdge[TNode], 0)
-	frontier := SliceHeap[SearchEdge[TNode]]{
-		contents: &frontierSlice,
-		elementLess: func(a, b SearchEdge[TNode]) bool {
+	frontier := aoc.SliceHeap[SearchEdge[TNode]]{
+		Contents: make([]SearchEdge[TNode], 0),
+		ElementLess: func(a, b SearchEdge[TNode]) bool {
 			return a.cost < b.cost
 		},
 	}
-	heap.Init(frontier)
-	heap.Push(frontier, node)
+	heap.Init(&frontier)
+	heap.Push(&frontier, node)
 	visited := set.New()
 	for {
 		if frontier.Len() == 0 {
 			return -1
 		}
-		node = heap.Pop(frontier).(SearchEdge[TNode])
+		node = heap.Pop(&frontier).(SearchEdge[TNode])
 		if isEndState(node.node) {
 			return node.cost
 		}
@@ -42,7 +42,7 @@ func graphSearch[TNode comparable](graph SearchGraph[TNode], start TNode, isEndS
 			foundInFrontier := SearchEdge[TNode]{}
 			foundInFrontierIndex := -1
 			costForThisNeighbor := neighbor.cost + node.cost
-			for i, frontierEdge := range *frontier.contents {
+			for i, frontierEdge := range frontier.Contents {
 				if frontierEdge.node == neighbor.node {
 					foundInFrontier = frontierEdge
 					foundInFrontierIndex = i
@@ -51,15 +51,15 @@ func graphSearch[TNode comparable](graph SearchGraph[TNode], start TNode, isEndS
 			}
 			if !visited.Has(neighbor.node) && foundInFrontierIndex == -1 {
 				heap.Push(
-					frontier,
+					&frontier,
 					SearchEdge[TNode]{
 						node: neighbor.node,
 						cost: neighbor.cost + node.cost,
 					},
 				)
 			} else if foundInFrontierIndex != -1 && costForThisNeighbor < foundInFrontier.cost {
-				(*frontier.contents)[foundInFrontierIndex].cost = costForThisNeighbor
-				heap.Fix(frontier, foundInFrontierIndex)
+				frontier.Contents[foundInFrontierIndex].cost = costForThisNeighbor
+				heap.Fix(&frontier, foundInFrontierIndex)
 			}
 		}
 	}

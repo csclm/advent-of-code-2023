@@ -1,6 +1,7 @@
-package main
+package day18
 
 import (
+	"aoc-2023/aoc-lib"
 	"os"
 	"regexp"
 	"strconv"
@@ -16,7 +17,7 @@ type GroundCell struct {
 }
 
 type Hole struct {
-	location Vec2
+	location aoc.Vec2
 	color    string
 }
 
@@ -37,26 +38,26 @@ func digInteriorHoles(ground [][]GroundCell) {
 
 	q := queue.New()
 	for _, coord := range perimiterCoords(width, height) {
-		if ground[coord.y][coord.x].dug {
+		if ground[coord.Y][coord.X].dug {
 			continue
 		}
-		for _, dir := range cardinalDirections() {
+		for _, dir := range aoc.CardinalDirections() {
 			newCoord := coord.Plus(dir)
-			if newCoord.IsInBounds(width, height) &&
-				!mask[newCoord.y][newCoord.x] &&
-				!ground[newCoord.y][newCoord.x].dug {
+			if newCoord.IsInBoundingBox(width, height) &&
+				!mask[newCoord.Y][newCoord.X] &&
+				!ground[newCoord.Y][newCoord.X].dug {
 				q.Enqueue(newCoord)
 			}
 		}
 	}
 	for q.Len() != 0 {
-		coord := q.Dequeue().(Vec2)
-		for _, dir := range cardinalDirections() {
+		coord := q.Dequeue().(aoc.Vec2)
+		for _, dir := range aoc.CardinalDirections() {
 			newCoord := coord.Plus(dir)
-			if newCoord.IsInBounds(width, height) &&
-				!mask[newCoord.y][newCoord.x] &&
-				!ground[newCoord.y][newCoord.x].dug {
-				mask[newCoord.y][newCoord.x] = true
+			if newCoord.IsInBoundingBox(width, height) &&
+				!mask[newCoord.Y][newCoord.X] &&
+				!ground[newCoord.Y][newCoord.X].dug {
+				mask[newCoord.Y][newCoord.X] = true
 				q.Enqueue(newCoord)
 			}
 		}
@@ -73,21 +74,21 @@ func digInteriorHoles(ground [][]GroundCell) {
 
 func digHoles(instructions []DigInstruction) []Hole {
 	result := make([]Hole, 0, len(instructions))
-	currentLocation := Vec2{0, 0}
+	currentLocation := aoc.NewVec2(0, 0)
 
 	// TODO what color should the initial hole be?
 	result = append(result, Hole{location: currentLocation, color: ""})
 	for _, instruction := range instructions {
-		var digDirection Vec2
+		var digDirection aoc.Vec2
 		switch instruction.direction {
 		case 'U':
-			digDirection = Vec2{0, -1}
+			digDirection = aoc.NewVec2(0, -1)
 		case 'D':
-			digDirection = Vec2{0, 1}
+			digDirection = aoc.NewVec2(0, 1)
 		case 'R':
-			digDirection = Vec2{1, 0}
+			digDirection = aoc.NewVec2(1, 0)
 		case 'L':
-			digDirection = Vec2{-1, 0}
+			digDirection = aoc.NewVec2(-1, 0)
 		}
 		for i := 0; i < instruction.distance; i++ {
 			currentLocation = currentLocation.Plus(digDirection)
@@ -100,10 +101,10 @@ func digHoles(instructions []DigInstruction) []Hole {
 func makeGridFromHoles(holes []Hole) [][]GroundCell {
 	minX, minY, maxX, maxY := 999999, 999999, -999999, -999999
 	for _, hole := range holes {
-		minX = min(minX, hole.location.x)
-		minY = min(minY, hole.location.y)
-		maxX = max(maxX, hole.location.x)
-		maxY = max(maxY, hole.location.y)
+		minX = min(minX, hole.location.X)
+		minY = min(minY, hole.location.Y)
+		maxX = max(maxX, hole.location.X)
+		maxY = max(maxY, hole.location.Y)
 	}
 	width := maxX - minX + 1
 	height := maxY - minY + 1
@@ -112,7 +113,7 @@ func makeGridFromHoles(holes []Hole) [][]GroundCell {
 		result[i] = make([]GroundCell, width)
 	}
 	for _, hole := range holes {
-		result[hole.location.y-minY][hole.location.x-minX] = GroundCell{
+		result[hole.location.Y-minY][hole.location.X-minX] = GroundCell{
 			dug:   true,
 			color: hole.color,
 		}

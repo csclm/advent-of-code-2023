@@ -1,4 +1,4 @@
-package main
+package day17
 
 type ClumsyCrucibleGraph struct {
 	contents        [][]int

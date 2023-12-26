@@ -1,4 +1,4 @@
-package main
+package day17
 
 import (
 	"fmt"
@@ -9,11 +9,8 @@ import (
 	"github.com/mitchellh/iochan"
 )
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	numGrid := parseInput(f)
-
-	// Part 1 - must move 0-3 squares before turning
 	graphPart1 := ClumsyCrucibleGraph{contents: numGrid, maxStraightLine: 3, minStraightLine: 0}
 	costPart1 := graphSearch[ClumsyCrucibleNode](
 		graphPart1,
@@ -21,8 +18,10 @@ func main() {
 		IsFinishingNode(graphPart1),
 	)
 	fmt.Printf("Part 1 minimum heat loss is %d\n", costPart1)
+}
 
-	// Part 2 - must move 4-10 squares before turning
+func Part2(f *os.File) {
+	numGrid := parseInput(f)
 	graphPart2 := ClumsyCrucibleGraph{contents: numGrid, maxStraightLine: 10, minStraightLine: 4}
 	costPart2 := graphSearch[ClumsyCrucibleNode](
 		graphPart2,

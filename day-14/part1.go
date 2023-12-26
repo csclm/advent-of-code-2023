@@ -1,4 +1,4 @@
-package main
+package day14
 
 func slideStonesNorth(grid Grid) {
 	for col := 0; col < grid.Width(); col++ {

@@ -1,12 +1,11 @@
-package main
+package day18
 
 import (
 	"fmt"
 	"os"
 )
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	instructions := parseInput(f)
 	holes := digHoles(instructions)
 	ground := makeGridFromHoles(holes)

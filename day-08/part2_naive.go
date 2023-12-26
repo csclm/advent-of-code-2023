@@ -1,4 +1,4 @@
-package main
+package day8
 
 // Naive solution, takes a long time to return an answer
 func numberOfTraversalStepsPart2Naive(directions string, network Network) int {

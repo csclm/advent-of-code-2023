@@ -1,4 +1,4 @@
-package main
+package day8
 
 func numberOfTraversalStepsPart1(directions string, network Network) int {
 	currentNode := "AAA"

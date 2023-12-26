@@ -1,4 +1,4 @@
-package main
+package day20
 
 import (
 	"fmt"
@@ -9,8 +9,7 @@ import (
 	"github.com/mitchellh/iochan"
 )
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	mms := parseInput(f)
 	moduleMachinePart1 := mms.CreateModuleMachine()
 

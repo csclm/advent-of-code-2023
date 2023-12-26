@@ -1,4 +1,4 @@
-package main
+package day6
 
 import (
 	"fmt"
@@ -19,26 +19,21 @@ var Races [4]Race = [4]Race{
 	{time: 88, distance: 1007},
 }
 
-func main() {
-	fmt.Printf("Part 1 answer is %d\n", part1())
-	fmt.Printf("Part 2 answer is %d\n", part2())
-}
-
-func part1() int {
+func Part1() {
 	answer := 1
 	for _, race := range Races {
 		answer *= race.numberOfWaysToWin()
 	}
-	return answer
+	fmt.Printf("Part 1 answer is %d\n", answer)
 }
 
-func part2() int {
+func Part2() {
 	longRace := Race{}
 	for _, race := range Races {
 		longRace.time = rightConcat(longRace.time, race.time)
 		longRace.distance = rightConcat(longRace.distance, race.distance)
 	}
-	return longRace.numberOfWaysToWin()
+	fmt.Printf("Part 2 answer is %d\n", longRace.numberOfWaysToWin())
 }
 
 func rightConcat(left int, right int) int {

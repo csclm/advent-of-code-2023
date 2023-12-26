@@ -1,4 +1,4 @@
-package main
+package day1
 
 import (
 	"fmt"
@@ -10,8 +10,7 @@ import (
 	"github.com/mitchellh/iochan"
 )
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	total1 := 0
 	//total2 := 0
 	for line := range iochan.DelimReader(f, '\n') {

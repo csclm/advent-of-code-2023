@@ -1,4 +1,4 @@
-package main
+package day2
 
 import (
 	"fmt"
@@ -23,10 +23,8 @@ type Draw struct {
 	color    string
 }
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	sumOfIds := 0
-	sumOfPowers := 0
 	part1Bag := DrawBag{
 		reds:   12,
 		greens: 13,
@@ -37,9 +35,16 @@ func main() {
 		if game.isPossibleWithBag(part1Bag) {
 			sumOfIds += game.id
 		}
-		sumOfPowers += game.power()
 	}
 	fmt.Printf("Sum of possible IDs is: %d\n", sumOfIds)
+}
+
+func Part2(f *os.File) {
+	sumOfPowers := 0
+	for line := range iochan.DelimReader(f, '\n') {
+		game := parseGame(line)
+		sumOfPowers += game.power()
+	}
 	fmt.Printf("Sum of all powers is: %d\n", sumOfPowers)
 }
 

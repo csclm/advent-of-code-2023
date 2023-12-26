@@ -1,12 +1,11 @@
-package main
+package day19
 
 import (
 	"fmt"
 	"os"
 )
 
-func main() {
-	f, _ := os.Open("./input.txt")
+func Part1(f *os.File) {
 	rules, parts := parseInput(f)
 
 	ratingsSum := 0
