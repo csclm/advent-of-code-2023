@@ -41,6 +41,7 @@ func CurrentPart() {
 func AllParts() {
 	day1.Part1(input(1))
 	//day1.Part2(input(1))
+
 	day2.Part1(input(2))
 	day2.Part2(input(2))
 
