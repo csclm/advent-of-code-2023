@@ -32,11 +32,13 @@ import (
 )
 
 func main() {
-	// CurrentPart()
-	AllParts()
+	CurrentPart()
+	// AllParts()
 }
 
 func CurrentPart() {
+	day4.Part1(input(4))
+	day4.Part2(input(4))
 }
 
 func AllParts() {

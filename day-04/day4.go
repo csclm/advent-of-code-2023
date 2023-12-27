@@ -2,11 +2,9 @@ package day4
 
 import (
 	"fmt"
-	"math"
 	"os"
 
 	"github.com/golang-collections/collections/set"
-	"github.com/mitchellh/iochan"
 )
 
 func Part1(f *os.File) {
@@ -19,15 +17,6 @@ func Part2(f *os.File) {
 	fmt.Printf("Total Cards: %d\n", totalCards(cards))
 }
 
-func parseInput(f *os.File) []Card {
-	cards := make([]Card, 1)
-	for line := range iochan.DelimReader(f, '\n') {
-		card := parseCard(line)
-		cards = append(cards, card)
-	}
-	return cards
-}
-
 // Part 1
 func totalPoints(cards []Card) int {
 	totalPoints := 0
@@ -36,7 +25,7 @@ func totalPoints(cards []Card) int {
 		if winningNumbers == 0 {
 			continue
 		}
-		totalPoints += int(math.Pow(2, float64(winningNumbers-1)))
+		totalPoints += 1 << (winningNumbers - 1)
 	}
 	return totalPoints
 }
@@ -75,7 +64,6 @@ func (card *Card) winningNumbersOnCard() int {
 	for _, cardNum := range card.numbersOnCard {
 		onCard.Insert(cardNum)
 	}
-
 	common := winning.Intersection(onCard)
 	return common.Len()
 }

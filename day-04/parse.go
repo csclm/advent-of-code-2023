@@ -1,9 +1,21 @@
 package day4
 
 import (
+	"os"
 	"regexp"
 	"strconv"
+
+	"github.com/mitchellh/iochan"
 )
+
+func parseInput(f *os.File) []Card {
+	cards := make([]Card, 0)
+	for line := range iochan.DelimReader(f, '\n') {
+		card := parseCard(line)
+		cards = append(cards, card)
+	}
+	return cards
+}
 
 func parseCard(line string) Card {
 	pattern := regexp.MustCompile(`\d+`)
