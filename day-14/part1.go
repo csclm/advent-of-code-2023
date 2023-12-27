@@ -6,8 +6,6 @@ func slideStonesNorth(grid Grid) {
 	}
 }
 
-// TODO this is borked now. Why? I thought slices were opaque pointers?
-
 // Shifts stones toward the zero index
 func northShiftStonesInGridColumn(grid Grid, column int) {
 	roundStonesInSegment := 0
@@ -27,7 +25,8 @@ func northShiftStonesInGridColumn(grid Grid, column int) {
 		roundStonesInSegment = 0
 	}
 
-	for cell := 0; cell < grid.Height(); cell++ {
+	for row := 0; row < grid.Height(); row++ {
+		cell := grid.RuneAt(row, column)
 		if cell == SquareStone {
 			flushSegment()
 			assembled++ // Skip over this stone

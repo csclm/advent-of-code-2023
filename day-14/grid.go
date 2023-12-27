@@ -1,5 +1,7 @@
 package day14
 
+import "fmt"
+
 const (
 	North = iota
 	East  = iota
@@ -109,5 +111,14 @@ func (g Grid) Height() int {
 		return len(g.contents[0])
 	default:
 		panic("Invalid orientation")
+	}
+}
+
+func (g Grid) Print() {
+	for row := 0; row < g.Height(); row++ {
+		for col := 0; col < g.Width(); col++ {
+			fmt.Print(string(g.RuneAt(row, col)))
+		}
+		fmt.Println()
 	}
 }
