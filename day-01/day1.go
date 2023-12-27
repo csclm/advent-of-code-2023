@@ -1,24 +1,28 @@
 package day1
 
 import (
+	"aoc-2023/aoc-lib"
 	"fmt"
 	"os"
 	"regexp"
 	"strconv"
 	"unicode"
-
-	"github.com/mitchellh/iochan"
 )
 
 func Part1(f *os.File) {
 	total1 := 0
-	//total2 := 0
-	for line := range iochan.DelimReader(f, '\n') {
+	for line := range aoc.LineReader(f) {
 		total1 += numFromLinePart1(line)
-		//total2 += numFromLinePart2(line)
 	}
 	fmt.Printf("Total 1 is: %d\n", total1)
-	//fmt.Printf("Total 2 is: %d\n", total2)
+}
+
+func Part2(f *os.File) {
+	total2 := 0
+	for line := range aoc.LineReader(f) {
+		total2 += numFromLinePart2(line)
+	}
+	fmt.Printf("Total 2 is: %d\n", total2)
 }
 
 func numFromLinePart1(line string) int {
@@ -42,30 +46,26 @@ func numFromLinePart1(line string) int {
 }
 
 func numFromLinePart2(line string) int {
-	// This would work if golang supported ?=
-	pattern, _ := regexp.Compile("(?=([0-9]|one|two|three|four|five|six|seven|eight|nine))")
+	// Normally I would use a positive lookahead group to allow for overlapping matches
+	// E.g. (?=([0-9]|one|two|three|four|five|six|seven|eight|nine))
 
-	firstDigit := -1
-	lastDigit := -1
+	// but golang doesn't support it, so I'm taking advantange of the fact that
+	// the regex engine finds the leftmost non-overlapping match, and just matching on
+	// the reverse of the string to find the rightmost non-overlapping match
+	forwardPattern, _ := regexp.Compile(`([0-9]|one|two|three|four|five|six|seven|eight|nine)`)
+	reversePattern, _ := regexp.Compile(`([0-9]|eno|owt|eerht|ruof|evif|xis|neves|thgie|enin)`)
 
-	matches := pattern.FindAllString(line, -1)
+	forwardMatches := forwardPattern.FindAllString(line, -1)
+	reverseMatches := reversePattern.FindAllString(aoc.ReverseString(line), -1)
 
-	for _, match := range matches {
-		theDigit := digitFromMatch(match)
-		if theDigit == -1 {
-			panic("shouldn't happen")
-		}
-		if firstDigit == -1 {
-			firstDigit = theDigit
-		}
-		lastDigit = theDigit
+	firstDigit := digitFromMatch(forwardMatches[0])
+	lastDigit := digitFromMatch(aoc.ReverseString(reverseMatches[0]))
+
+	if firstDigit == -1 || lastDigit == -1 {
+		panic("shouldn't happen")
 	}
 
-	if firstDigit == -1 {
-		return 0
-	}
-
-	return int(firstDigit)*10 + int(lastDigit)
+	return firstDigit*10 + lastDigit
 }
 
 func digitFromMatch(match string) int {
