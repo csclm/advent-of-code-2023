@@ -1,9 +1,9 @@
 package day5
 
 import (
+	"aoc-2023/aoc-lib"
 	"os"
 	"regexp"
-	"strconv"
 	"strings"
 
 	"github.com/mitchellh/iochan"
@@ -47,22 +47,17 @@ func parseMappingRange(line string) MappingRange {
 	mappingRangePattern := regexp.MustCompile(`\d+`)
 	numStrings := mappingRangePattern.FindAllString(line, -1)
 	return MappingRange{
-		destination: mustParseInt(numStrings[0]),
-		source:      mustParseInt(numStrings[1]),
-		length:      mustParseInt(numStrings[2]),
+		destination: aoc.MustParseInt(numStrings[0]),
+		source:      aoc.MustParseInt(numStrings[1]),
+		length:      aoc.MustParseInt(numStrings[2]),
 	}
-}
-
-func mustParseInt(intStr string) int {
-	num, _ := strconv.ParseInt(intStr, 10, 0)
-	return int(num)
 }
 
 func parseSeedNums(seedNumLine string) []int {
 	seedNumStrings := strings.Split(strings.TrimSpace(seedNumLine), " ")[1:]
 	nums := make([]int, len(seedNumStrings))
 	for i, seedNumString := range seedNumStrings {
-		nums[i] = mustParseInt(seedNumString)
+		nums[i] = aoc.MustParseInt(seedNumString)
 	}
 	return nums
 }

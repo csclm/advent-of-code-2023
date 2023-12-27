@@ -1,8 +1,8 @@
 package day7
 
 import (
+	"aoc-2023/aoc-lib"
 	"os"
-	"strconv"
 	"strings"
 	"unicode"
 
@@ -28,21 +28,16 @@ func parseHandAndBid(line string) HandAndBid {
 	for i, char := range components[0] {
 		cards[i] = strengthOfRank(char)
 	}
-	bid := mustParseInt(components[1])
+	bid := aoc.MustParseInt(components[1])
 	return HandAndBid{
 		hand: Hand{cards},
 		bid:  bid,
 	}
 }
 
-func mustParseInt(s string) int {
-	num, _ := strconv.ParseInt(s, 10, 0)
-	return int(num)
-}
-
 func strengthOfRank(rank rune) int {
 	if unicode.IsDigit(rank) {
-		return mustParseInt(string(rank))
+		return aoc.MustParseInt(string(rank))
 	}
 	switch rank {
 	case 'T':
