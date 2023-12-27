@@ -37,8 +37,8 @@ func main() {
 }
 
 func CurrentPart() {
-	day4.Part1(input(4))
-	day4.Part2(input(4))
+	day6.Part1(input(6))
+	day6.Part2(input(6))
 }
 
 func AllParts() {
@@ -57,8 +57,8 @@ func AllParts() {
 	day5.Part1(input(5))
 	day5.Part2(input(5))
 
-	day6.Part1()
-	day6.Part2()
+	day6.Part1(input(6))
+	day6.Part2(input(6))
 
 	day7.Part1(input(7))
 	day7.Part2(input(7))

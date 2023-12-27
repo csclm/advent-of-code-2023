@@ -3,6 +3,7 @@ package day6
 import (
 	"fmt"
 	"math"
+	"os"
 )
 
 type Race struct {
@@ -10,26 +11,19 @@ type Race struct {
 	distance int
 }
 
-// Skipping the parsing logic on this one
-// Ordering turns out to be important for part 2
-var Races [4]Race = [4]Race{
-	{time: 54, distance: 446},
-	{time: 81, distance: 1292},
-	{time: 70, distance: 1035},
-	{time: 88, distance: 1007},
-}
-
-func Part1() {
+func Part1(f *os.File) {
+	races := parseInput(f)
 	answer := 1
-	for _, race := range Races {
+	for _, race := range races {
 		answer *= race.numberOfWaysToWin()
 	}
 	fmt.Printf("Part 1 answer is %d\n", answer)
 }
 
-func Part2() {
+func Part2(f *os.File) {
+	races := parseInput(f)
 	longRace := Race{}
-	for _, race := range Races {
+	for _, race := range races {
 		longRace.time = rightConcat(longRace.time, race.time)
 		longRace.distance = rightConcat(longRace.distance, race.distance)
 	}
