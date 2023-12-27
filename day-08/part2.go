@@ -129,38 +129,37 @@ func (path VisitPath) Join(other VisitPath) VisitPath {
 			}
 		}
 	}
-
 	cycleLength := aoc.Lcm(early.cycleLength, late.cycleLength)
-	earlyMultiple := cycleLength / early.cycleLength
-	lateMultiple := cycleLength / late.cycleLength
-
-	visitsInCycle := make([]int, 0)
-	visitsFromEarlyCycle := set.New()
-	for i := 1; i <= lateMultiple; i++ {
-		for _, step := range late.visitsInCycle {
-			visitsFromEarlyCycle.Insert(step)
-		}
-	}
-	for i := 1; i <= earlyMultiple; i++ {
-		for _, step := range early.visitsInCycle {
+	visitsInCycleSet := set.New()
+	for _, lateStepInCycle := range late.visitsInCycle {
+		for _, earlyVisit := range early.visitsInCycle {
 			offset := late.cycleStart - early.cycleStart
-			stepInCycle := (step*i - offset) % cycleLength
-			if stepInCycle < 0 {
-				stepInCycle += cycleLength // Force it into [0,cycleLength)
-			}
-			if visitsFromEarlyCycle.Has(stepInCycle) {
-				visitsInCycle = append(visitsInCycle, stepInCycle)
+			earlyStepInCycle := (earlyVisit - offset) % cycleLength
+			// Find all multiples of these visits that sync up
+			seekLate := lateStepInCycle
+			seekEarly := earlyStepInCycle
+			for seekEarly < cycleLength && seekLate < cycleLength {
+				if seekEarly == seekLate {
+					visitsInCycleSet.Insert(seekEarly)
+				}
+				if seekEarly < seekLate {
+					seekEarly += early.cycleLength
+				} else {
+					seekLate += late.cycleLength
+				}
 			}
 		}
 	}
-
+	visitsInCycle := make([]int, 0)
+	visitsInCycleSet.Do(func(i interface{}) {
+		visitsInCycle = append(visitsInCycle, i.(int))
+	})
 	return VisitPath{
 		cycleStart:        late.cycleStart,
 		cycleLength:       cycleLength,
 		visitsBeforeCycle: visitsBeforeCycle,
 		visitsInCycle:     visitsInCycle,
 	}
-
 }
 
 func identityPath() VisitPath {
@@ -188,13 +187,13 @@ func numberOfTraversalStepsPart2(directions string, network Network) int {
 	}
 
 	if len(path.visitsBeforeCycle) != 0 {
-		minStep := 99999
+		minStep := 1 << 62
 		for _, step := range path.visitsBeforeCycle {
 			minStep = min(minStep, step)
 		}
 		return minStep
 	} else if len(path.visitsInCycle) != 0 {
-		minStep := 99999
+		minStep := 1 << 62
 		for _, step := range path.visitsInCycle {
 			minStep = min(minStep, step)
 		}
