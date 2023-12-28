@@ -79,23 +79,28 @@ func digHoles(instructions []DigInstruction) []Hole {
 	// TODO what color should the initial hole be?
 	result = append(result, Hole{location: currentLocation, color: ""})
 	for _, instruction := range instructions {
-		var digDirection aoc.Vec2
-		switch instruction.direction {
-		case 'U':
-			digDirection = aoc.NewVec2(0, -1)
-		case 'D':
-			digDirection = aoc.NewVec2(0, 1)
-		case 'R':
-			digDirection = aoc.NewVec2(1, 0)
-		case 'L':
-			digDirection = aoc.NewVec2(-1, 0)
-		}
+		digDirection := directionVecFromRune(instruction.direction)
 		for i := 0; i < instruction.distance; i++ {
 			currentLocation = currentLocation.Plus(digDirection)
 			result = append(result, Hole{location: currentLocation, color: instruction.color})
 		}
 	}
 	return result
+}
+
+func directionVecFromRune(dirRune rune) aoc.Vec2 {
+	switch dirRune {
+	case 'U':
+		return aoc.NewVec2(0, -1)
+	case 'D':
+		return aoc.NewVec2(0, 1)
+	case 'R':
+		return aoc.NewVec2(1, 0)
+	case 'L':
+		return aoc.NewVec2(-1, 0)
+	default:
+		panic("Invalid direction rune")
+	}
 }
 
 func makeGridFromHoles(holes []Hole) [][]GroundCell {

@@ -18,3 +18,11 @@ func Lcm(a, b int, integers ...int) int {
 
 	return result
 }
+
+func IntAbs(x int) int {
+	if x < 0 {
+		return -x
+	} else {
+		return x
+	}
+}

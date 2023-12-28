@@ -16,6 +16,10 @@ func (v Vec2) Times(scalar int) Vec2 {
 	return Vec2{v.X * scalar, v.Y * scalar}
 }
 
+func (v Vec2) DividedBy(scalar int) Vec2 {
+	return Vec2{v.X / scalar, v.Y / scalar}
+}
+
 func (v Vec2) Inverse() Vec2 {
 	return Vec2{-v.X, -v.Y}
 }

@@ -1,6 +1,7 @@
 package day18
 
 import (
+	"aoc-2023/aoc-lib"
 	"fmt"
 	"os"
 )
@@ -23,13 +24,12 @@ func Part1(f *os.File) {
 	}
 
 	fmt.Printf("Part 1 Total Volume: %d\n", totalDug)
+}
 
-	// f.Seek(0, 0)
-	// part2Instructions := parseInputWithHexInstructions(f)
-	/*
-		Part 2 idea:
-		parse each set of 2 consecutive moves as a rectangle
-		for any pair of intersecting rectangles, re-partition them as a set of non-intersecting rectangles
-		.. that might be O(n^2) or O(n^3) so maybe a quadtree would speed it up?
-	*/
+func Part2(f *os.File) {
+	instructions := parseInputWithHexInstructions(f)
+	vertices := verticesFromDigInstructions(instructions)
+	area := aoc.IntAbs(shoelace(vertices))
+	runTestCases()
+	fmt.Printf("Part 2 Total Volume: %d\n", area)
 }
