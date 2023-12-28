@@ -38,24 +38,8 @@ type WorkflowAction struct {
 
 type WorkflowCondition struct {
 	property rune // x, m, a, or s
-	operator rune // '>', '<', '=', or '!' (not equal)
+	operator rune // '>', '<', or '='
 	value    int
-}
-
-func (wc WorkflowCondition) Inverted() WorkflowCondition {
-	switch wc.operator {
-	case '>':
-		wc.operator = '<'
-	case '<':
-		wc.operator = '>'
-	case '=':
-		wc.operator = '!'
-	case '!':
-		wc.operator = '='
-	default:
-		panic("Invalid operator")
-	}
-	return wc
 }
 
 func (w Workflow) evaluate(part Part) WorkflowAction {
@@ -72,8 +56,6 @@ func (wc WorkflowCondition) evaluate(part Part) bool {
 	switch wc.operator {
 	case '=':
 		return valueToTest == wc.value
-	case '!':
-		return valueToTest != wc.value
 	case '>':
 		return valueToTest > wc.value
 	case '<':

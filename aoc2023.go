@@ -37,7 +37,7 @@ func main() {
 }
 
 func CurrentPart() {
-	day14.Part1(input(14))
+	day19.Part2(input(19))
 }
 
 func AllParts() {
