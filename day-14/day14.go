@@ -29,7 +29,11 @@ func Part1(f *os.File) {
 
 func Part2(f *os.File) {
 	grid := parseInput(f)
-	slideStonesNorth(grid)
+	spunGrid := spinABillionTimes(grid)
+	fmt.Printf("Total load: %d\n", calculateLoadOnNorthBeams(spunGrid))
+}
+
+func calculateLoadOnNorthBeams(grid Grid) int {
 	totalLoad := 0
 	for ri := 0; ri < grid.Height(); ri++ {
 		for ci := 0; ci < grid.Width(); ci++ {
@@ -38,7 +42,7 @@ func Part2(f *os.File) {
 			}
 		}
 	}
-	fmt.Printf("Total load: %d\n", totalLoad)
+	return totalLoad
 }
 
 const RoundStone = 'O'
