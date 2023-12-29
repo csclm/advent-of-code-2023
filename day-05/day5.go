@@ -66,8 +66,8 @@ func evaluateMappingWithRanges(inputRanges []aoc.Range, mappingRanges []MappingR
 func evaluateMappingWithRange(inputRange aoc.Range, mappingRanges []MappingRange) []aoc.Range {
 	resultRanges := make([]aoc.Range, 0)
 	for _, mappingRange := range mappingRanges {
-		overlap, doesOverlap := inputRange.Intersection(mappingRange.InputRange())
-		if doesOverlap {
+		overlap := inputRange.Intersection(mappingRange.InputRange())
+		if overlap.Size() > 0 {
 			mappedRange := aoc.Range{
 				Min: overlap.Min + mappingRange.destination - mappingRange.source,
 				Max: overlap.Max + mappingRange.destination - mappingRange.source,

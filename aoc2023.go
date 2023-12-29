@@ -22,8 +22,8 @@ import (
 	day19 "aoc-2023/day-19"
 	day20 "aoc-2023/day-20"
 	day21 "aoc-2023/day-21"
+	day22 "aoc-2023/day-22"
 
-	// day22 "aoc-2023/day-22"
 	// day23 "aoc-2023/day-23"
 	// day24 "aoc-2023/day-24"
 	// day25 "aoc-2023/day-25"
@@ -37,7 +37,7 @@ func main() {
 }
 
 func CurrentPart() {
-	day19.Part2(input(19))
+	day22.Part2(input(22))
 }
 
 func AllParts() {
