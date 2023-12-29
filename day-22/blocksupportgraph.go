@@ -4,7 +4,6 @@ import (
 	"aoc-2023/aoc-lib"
 
 	"github.com/golang-collections/collections/queue"
-	"github.com/golang-collections/collections/set"
 )
 
 type BlockSupportGraph struct {
@@ -107,7 +106,6 @@ func AreBlocksVerticallyAdjacent(b1, b2 Rect3) bool {
 
 func (graph BlockSupportGraph) InOrderTraversal() []string {
 	q := queue.New()
-	visited := set.New()
 	traversal := make([]string, 0)
 
 	// Start at all nodes that have no incoming edges
@@ -121,17 +119,14 @@ func (graph BlockSupportGraph) InOrderTraversal() []string {
 	}
 	for q.Len() != 0 {
 		node := q.Dequeue().(string)
-		if !visited.Has(node) {
-			traversal = append(traversal, node)
-			for edge := range graph.edges[node].Elements() {
-				newDegree := indegrees[edge] - 1
-				indegrees[edge] = newDegree
-				if newDegree == 0 {
-					q.Enqueue(edge)
-				}
+		traversal = append(traversal, node)
+		for edge := range graph.edges[node].Elements() {
+			newDegree := indegrees[edge] - 1
+			indegrees[edge] = newDegree
+			if newDegree == 0 {
+				q.Enqueue(edge)
 			}
 		}
-		visited.Insert(node)
 	}
 	return traversal
 }

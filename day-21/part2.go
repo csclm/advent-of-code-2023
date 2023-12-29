@@ -24,6 +24,14 @@ type StepsSubproblem struct {
 	start aoc.Vec2
 }
 
+/*
+Have to break this down into solvable subproblems
+
+maybe the first computation could be - for any starting position within the map, how many steps does it take to reach
+any square on any adjacent instance of the map?
+
+*/
+
 // func reachableLocationsMemo(grid [][]rune, steps int, start Vec2, memo map[StepsSubproblem]([]Vec2)) []Vec2 {
 // 	if steps == 0 {
 // 		return []Vec2{start}

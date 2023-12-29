@@ -8,12 +8,22 @@ type ModuleMachineSchema struct {
 }
 
 func (mms ModuleMachineSchema) CreateModuleMachine() ModuleMachine {
+	gateInputs := make(map[string][]string)
+	for source, dests := range mms.connections {
+		for _, dest := range dests {
+			gateInputs[dest] = append(gateInputs[dest], source)
+		}
+	}
 	modules := make(map[string]Module)
 	for name, moduleType := range mms.modules {
 		var module Module
 		switch moduleType {
 		case "&":
-			module = &ConjunctionModule{rememberedInputs: make(map[string]bool)}
+			rememberedInputs := make(map[string]bool)
+			for _, input := range gateInputs[name] {
+				rememberedInputs[input] = false
+			}
+			module = &ConjunctionModule{rememberedInputs}
 		case "%":
 			module = &FlipFlopModule{}
 		case "broadcaster":
@@ -22,15 +32,6 @@ func (mms ModuleMachineSchema) CreateModuleMachine() ModuleMachine {
 			panic("Invalid module type")
 		}
 		modules[name] = module
-	}
-	for source, dests := range mms.connections {
-		for _, dest := range dests {
-			// Initialize input connections
-			_, exists := modules[dest]
-			if exists {
-				modules[dest].addConnection(source)
-			}
-		}
 	}
 	return ModuleMachine{
 		modules:     modules,
