@@ -23,8 +23,8 @@ import (
 	day20 "aoc-2023/day-20"
 	day21 "aoc-2023/day-21"
 	day22 "aoc-2023/day-22"
+	day23 "aoc-2023/day-23"
 
-	// day23 "aoc-2023/day-23"
 	// day24 "aoc-2023/day-24"
 	// day25 "aoc-2023/day-25"
 	"os"
@@ -37,7 +37,7 @@ func main() {
 }
 
 func CurrentPart() {
-	day22.Part2(input(22))
+	day23.Part1(input(23))
 }
 
 func AllParts() {
@@ -63,7 +63,7 @@ func AllParts() {
 	day7.Part2(input(7))
 
 	day8.Part1(input(8))
-	//day8.Part2(input(8))
+	day8.Part2(input(8))
 
 	day9.Part1(input(9))
 	day9.Part2(input(9))
@@ -81,7 +81,7 @@ func AllParts() {
 	day13.Part2(input(13))
 
 	day14.Part1(input(14))
-	//day14.Part2(input(1))
+	day14.Part2(input(1))
 
 	day15.Part1(input(15))
 	day15.Part2(input(15))
@@ -93,10 +93,10 @@ func AllParts() {
 	day17.Part2(input(17))
 
 	day18.Part1(input(18))
-	//day18.Part2(input(1))
+	day18.Part2(input(1))
 
 	day19.Part1(input(19))
-	// day19.Part2(input(19))
+	day19.Part2(input(19))
 
 	day20.Part1(input(20))
 	// day20.Part2(input(20))
@@ -104,10 +104,10 @@ func AllParts() {
 	day21.Part1(input(21))
 	// day21.Part2(input(21))
 
-	// day22.Part1(input(22))
-	// day22.Part2(input(22))
+	day22.Part1(input(22))
+	day22.Part2(input(22))
 
-	// day23.Part1(input(23))
+	day23.Part1(input(23))
 	// day23.Part2(input(23))
 
 	// day24.Part1(input(24))
