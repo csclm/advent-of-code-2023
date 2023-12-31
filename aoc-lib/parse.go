@@ -19,7 +19,7 @@ func ReadGrid(r io.Reader) (Grid[rune], error) {
 		if width == 0 {
 			width = len(line)
 		} else if len(line) != width {
-			panic("Input is not rectangular")
+			return *new(Grid[rune]), errors.New("input is not rectangular")
 		}
 		contents = append(contents, []rune(line)...)
 	}
