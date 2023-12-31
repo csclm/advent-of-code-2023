@@ -2,6 +2,7 @@ package aoc
 
 import (
 	"fmt"
+	"slices"
 )
 
 type Grid[T any] struct {
@@ -97,4 +98,9 @@ func (g Grid[T]) MaybeGetVec2(v Vec2) (T, bool) {
 		return *new(T), false
 	}
 	return g.contents[v.Y*g.Width+v.X], true
+}
+
+func (g Grid[T]) Clone() Grid[T] {
+	g.contents = slices.Clone(g.contents)
+	return g
 }
