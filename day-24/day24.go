@@ -16,6 +16,22 @@ type Hailstone struct {
 	velocity FloatVec2
 }
 
+type InequalityCondition struct {
+}
+
+func pathIntersectingAllHailstones() {
+	// each hailstone has a position described by
+	// p = dp*t + p0
+	// call it a path
+	// for 2 paths, what are all the lines that will intercept them?
+	// ds*t + s0 = dp*t + p0
+	// we need to make sure this has a solution for t > 0, so this imposes constraints on ds and s0
+	// t = (p0 - s0) / (ds - dp)
+	// ds > dp && s0 < p0 || ds < dp && s0 > p0
+	// How do we generalize this to 3 dimensions?
+
+}
+
 func (h Hailstone) findPathIntersectionInFuture(other Hailstone) (FloatVec2, bool) {
 	// TODO special case for vertical path?
 	// Turned out not to be necessary for part 1
