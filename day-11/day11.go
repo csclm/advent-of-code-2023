@@ -1,6 +1,7 @@
 package day11
 
 import (
+	"aoc-2023/aoc-lib"
 	"fmt"
 	"os"
 	"slices"
@@ -10,13 +11,9 @@ import (
 	"github.com/mitchellh/iochan"
 )
 
-type Vec2 struct {
-	x, y int
-}
-
 type Universe struct {
 	width, height int
-	galaxies      []Vec2
+	galaxies      []aoc.Vec2
 }
 
 func Part1(f *os.File) {
@@ -37,8 +34,8 @@ func (u *Universe) sumOfPathDistancesBetweenGalaxies() int {
 		for i2 := 0; i2 < i1; i2++ {
 			galaxy1 := u.galaxies[i1]
 			galaxy2 := u.galaxies[i2]
-			sumPathDistances += intAbs(galaxy1.x - galaxy2.x)
-			sumPathDistances += intAbs(galaxy1.y - galaxy2.y)
+			sumPathDistances += intAbs(galaxy1.X - galaxy2.X)
+			sumPathDistances += intAbs(galaxy1.Y - galaxy2.Y)
 		}
 	}
 	return sumPathDistances
@@ -53,14 +50,14 @@ func intAbs(in int) int {
 }
 
 func parseGalaxies(f *os.File) Universe {
-	galaxies := make([]Vec2, 0)
+	galaxies := make([]aoc.Vec2, 0)
 	row := 0
 	width := 0
 	for line := range iochan.DelimReader(f, '\n') {
 		width = len(strings.TrimSpace(line))
 		for col, r := range line {
 			if r == '#' {
-				galaxies = append(galaxies, Vec2{row, col})
+				galaxies = append(galaxies, aoc.NewVec2(row, col))
 			}
 		}
 		row++
@@ -72,8 +69,8 @@ func (u *Universe) expand(scalingFactor int) {
 	rowsWithGalaxies := set.New()
 	colsWithGalaxies := set.New()
 	for _, galaxy := range u.galaxies {
-		rowsWithGalaxies.Insert(galaxy.y)
-		colsWithGalaxies.Insert(galaxy.x)
+		rowsWithGalaxies.Insert(galaxy.Y)
+		colsWithGalaxies.Insert(galaxy.X)
 	}
 
 	// Expand rows
@@ -87,8 +84,8 @@ func (u *Universe) expand(scalingFactor int) {
 	slices.Reverse(rowsToExpand)
 	for _, rowToExpand := range rowsToExpand {
 		for i, galaxy := range u.galaxies {
-			if galaxy.y > rowToExpand {
-				u.galaxies[i].y += scalingFactor - 1
+			if galaxy.Y > rowToExpand {
+				u.galaxies[i].Y += scalingFactor - 1
 			}
 		}
 	}
@@ -104,8 +101,8 @@ func (u *Universe) expand(scalingFactor int) {
 	slices.Reverse(colsToExpand)
 	for _, colToExpand := range colsToExpand {
 		for i, galaxy := range u.galaxies {
-			if galaxy.x > colToExpand {
-				u.galaxies[i].x += scalingFactor - 1
+			if galaxy.X > colToExpand {
+				u.galaxies[i].X += scalingFactor - 1
 			}
 		}
 	}

@@ -33,14 +33,14 @@ func Part2(f *os.File) {
 
 func CrucibleStartingNode() ClumsyCrucibleNode {
 	return ClumsyCrucibleNode{
-		location:      Vec2{0, 0},
-		lastDirection: Vec2{0, 0},
+		location:      aoc.NewVec2(0, 0),
+		lastDirection: aoc.NewVec2(0, 0),
 		momentum:      0,
 	}
 }
 func IsFinishingNode(graph ClumsyCrucibleGraph) func(ClumsyCrucibleNode) bool {
 	return func(node ClumsyCrucibleNode) bool {
-		return node.location == Vec2{graph.Width() - 1, graph.Height() - 1}
+		return node.location == aoc.NewVec2(graph.Width()-1, graph.Height()-1)
 	}
 }
 

@@ -1,5 +1,7 @@
 package day17
 
+import "aoc-2023/aoc-lib"
+
 type ClumsyCrucibleGraph struct {
 	contents        [][]int
 	maxStraightLine int // minimum number of squares before a crucible can turn
@@ -14,33 +16,17 @@ func (g ClumsyCrucibleGraph) Height() int {
 	return len(g.contents)
 }
 
-type Vec2 struct {
-	x, y int
-}
-
-func (v Vec2) Plus(other Vec2) Vec2 {
-	return Vec2{v.x + other.x, v.y + other.y}
-}
-
-func (v Vec2) Inverse() Vec2 {
-	return Vec2{-v.x, -v.y}
-}
-
-func (v Vec2) IsInBounds(width, height int) bool {
-	return v.x >= 0 && v.y >= 0 && v.x < width && v.y < height
-}
-
 type ClumsyCrucibleNode struct {
-	location      Vec2
-	lastDirection Vec2
+	location      aoc.Vec2
+	lastDirection aoc.Vec2
 	momentum      int
 }
 
 func (g ClumsyCrucibleGraph) neighbors(node ClumsyCrucibleNode) []SearchEdge[ClumsyCrucibleNode] {
 	result := make([]SearchEdge[ClumsyCrucibleNode], 0)
-	for _, dir := range cardinalDirections() {
+	for _, dir := range aoc.CardinalDirections() {
 		newLocation := node.location.Plus(dir)
-		if !newLocation.IsInBounds(g.Width(), g.Height()) {
+		if !newLocation.IsInBoundingBox(g.Width(), g.Height()) {
 			// Can't go out of bounds
 			continue
 		}
@@ -52,7 +38,7 @@ func (g ClumsyCrucibleGraph) neighbors(node ClumsyCrucibleNode) []SearchEdge[Clu
 		if dir == node.lastDirection {
 			newMomentum = node.momentum + 1
 		} else {
-			if node.momentum < g.minStraightLine && node.lastDirection != (Vec2{0, 0}) {
+			if node.momentum < g.minStraightLine && node.lastDirection != (aoc.Vec2{0, 0}) {
 				// Can't turn until we've moved far enough
 				continue
 			}
@@ -67,12 +53,8 @@ func (g ClumsyCrucibleGraph) neighbors(node ClumsyCrucibleNode) []SearchEdge[Clu
 			lastDirection: dir,
 			momentum:      newMomentum,
 		}
-		newCost := g.contents[newLocation.y][newLocation.x]
+		newCost := g.contents[newLocation.Y][newLocation.X]
 		result = append(result, SearchEdge[ClumsyCrucibleNode]{newNode, newCost})
 	}
 	return result
-}
-
-func cardinalDirections() [4]Vec2 {
-	return [...]Vec2{{1, 0}, {0, 1}, {-1, 0}, {0, -1}}
 }
