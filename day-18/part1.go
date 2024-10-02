@@ -4,7 +4,6 @@ import (
 	"aoc-2023/aoc-lib"
 	"os"
 	"regexp"
-	"strconv"
 
 	"github.com/golang-collections/collections/queue"
 )
@@ -129,10 +128,10 @@ func parseInput(f *os.File) []DigInstruction {
 	result := make([]DigInstruction, 0)
 	for line := range aoc.LineReader(f) {
 		match := pattern.FindStringSubmatch(line)
-		distanceNum, _ := strconv.ParseInt(match[2], 10, 0)
+		distanceNum := aoc.MustParseInt(match[2])
 		result = append(result, DigInstruction{
 			direction: []rune(match[1])[0],
-			distance:  int(distanceNum),
+			distance:  distanceNum,
 			color:     match[3],
 		})
 	}

@@ -48,6 +48,10 @@ func MustParseInt(str string) int {
 	return int(num)
 }
 
+func MustParseDigit(char rune) int {
+	return MustParseInt(string(char))
+}
+
 func MustParseListOfNums(str string, sep string) []int {
 	components := strings.Split(str, sep)
 	result := make([]int, len(components))

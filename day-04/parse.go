@@ -4,7 +4,6 @@ import (
 	"aoc-2023/aoc-lib"
 	"os"
 	"regexp"
-	"strconv"
 )
 
 func parseInput(f *os.File) []Card {
@@ -20,13 +19,13 @@ func parseCard(line string) Card {
 	pattern := regexp.MustCompile(`\d+`)
 	result := Card{}
 	for i, match := range pattern.FindAllString(line, -1) {
-		num, _ := strconv.ParseInt(match, 10, 0)
+		num := aoc.MustParseInt(match)
 		if i == 0 {
-			result.cardNum = int(num)
+			result.cardNum = num
 		} else if i < len(result.winningNumbers)+1 {
-			result.winningNumbers[i-1] = int(num)
+			result.winningNumbers[i-1] = num
 		} else {
-			result.numbersOnCard[i-1-len(result.winningNumbers)] = int(num)
+			result.numbersOnCard[i-1-len(result.winningNumbers)] = num
 		}
 	}
 	return result

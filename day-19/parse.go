@@ -4,7 +4,6 @@ import (
 	"aoc-2023/aoc-lib"
 	"os"
 	"regexp"
-	"strconv"
 	"strings"
 )
 
@@ -59,25 +58,21 @@ func parseAction(s string) WorkflowAction {
 }
 
 func parseCondition(s string) WorkflowCondition {
-	valNum, _ := strconv.ParseInt(s[2:], 10, 0)
+	valNum := aoc.MustParseInt(s[2:])
 	return WorkflowCondition{
 		property: []rune(s)[0],
 		operator: []rune(s)[1],
-		value:    int(valNum),
+		value:    valNum,
 	}
 }
 
 func parsePart(str string) Part {
 	pattern := regexp.MustCompile(`\{x=(\d+),m=(\d+),a=(\d+),s=(\d+)\}`)
 	matches := pattern.FindStringSubmatch(str)
-	x, _ := strconv.ParseInt(matches[1], 10, 0)
-	m, _ := strconv.ParseInt(matches[2], 10, 0)
-	a, _ := strconv.ParseInt(matches[3], 10, 0)
-	s, _ := strconv.ParseInt(matches[4], 10, 0)
 	return Part{
-		x: int(x),
-		m: int(m),
-		a: int(a),
-		s: int(s),
+		x: aoc.MustParseInt(matches[1]),
+		m: aoc.MustParseInt(matches[2]),
+		a: aoc.MustParseInt(matches[3]),
+		s: aoc.MustParseInt(matches[4]),
 	}
 }

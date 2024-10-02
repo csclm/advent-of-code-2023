@@ -1,10 +1,10 @@
 package day3
 
 import (
+	"aoc-2023/aoc-lib"
 	"fmt"
 	"os"
 	"regexp"
-	"strconv"
 )
 
 type Schematic struct {
@@ -113,8 +113,7 @@ func generatePartNumberMap(schematic *Schematic, locations *[]PartNumberLocation
 
 func (schematic *Schematic) getNumberAtLocation(location PartNumberLocation) int {
 	numAsString := string(schematic.contents[location.row][location.column : location.column+location.length])
-	num, _ := strconv.ParseInt(numAsString, 10, 0)
-	return int(num)
+	return aoc.MustParseInt(numAsString)
 }
 
 func Part1(f *os.File) {

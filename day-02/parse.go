@@ -1,15 +1,15 @@
 package day2
 
 import (
+	"aoc-2023/aoc-lib"
 	"regexp"
-	"strconv"
 	"strings"
 )
 
 func parseGame(game string) DrawGame {
 	pattern := regexp.MustCompile("[:,;]\\s?")
 	components := pattern.Split(game, -1)
-	gameId, _ := strconv.ParseInt(strings.Split(components[0], " ")[1], 10, 0)
+	gameId := aoc.MustParseInt(strings.Split(components[0], " ")[1])
 	parsedDraws := make([]Draw, max(0, len(components)-1))
 	for i, drawString := range components {
 		if i == 0 {
@@ -17,15 +17,15 @@ func parseGame(game string) DrawGame {
 			continue
 		}
 		components := strings.Split(strings.TrimSpace(drawString), " ")
-		quantity, _ := strconv.ParseInt(components[0], 10, 0)
+		quantity := aoc.MustParseInt(components[0])
 		color := components[1]
 		parsedDraws[i-1] = Draw{
-			quantity: int(quantity),
+			quantity: quantity,
 			color:    color,
 		}
 	}
 	return DrawGame{
-		id:    int(gameId),
+		id:    gameId,
 		draws: parsedDraws,
 	}
 }

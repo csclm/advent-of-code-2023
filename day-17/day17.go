@@ -4,7 +4,6 @@ import (
 	"aoc-2023/aoc-lib"
 	"fmt"
 	"os"
-	"strconv"
 )
 
 func Part1(f *os.File) {
@@ -47,8 +46,7 @@ func parseInput(f *os.File) [][]int {
 	for line := range aoc.LineReader(f) {
 		numLine := make([]int, 0)
 		for _, r := range line {
-			num, _ := strconv.ParseInt(string([]rune{r}), 10, 0)
-			numLine = append(numLine, int(num))
+			numLine = append(numLine, aoc.MustParseDigit(r))
 		}
 		result = append(result, numLine)
 	}

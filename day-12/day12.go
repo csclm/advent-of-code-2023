@@ -4,7 +4,6 @@ import (
 	"aoc-2023/aoc-lib"
 	"fmt"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -66,8 +65,7 @@ func parseInput(f *os.File) []SpringRecord {
 		groupsStrings := strings.Split(components[1], ",")
 		groupsSlice := make([]int, len(groupsStrings))
 		for i, g := range groupsStrings {
-			groupNum, _ := strconv.ParseInt(g, 10, 0)
-			groupsSlice[i] = int(groupNum)
+			groupsSlice[i] = aoc.MustParseInt(g)
 		}
 		result = append(result, SpringRecord{
 			damagedSpringGroups: groupsSlice,

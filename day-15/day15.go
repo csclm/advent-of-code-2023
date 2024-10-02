@@ -1,9 +1,9 @@
 package day15
 
 import (
+	"aoc-2023/aoc-lib"
 	"fmt"
 	"os"
-	"strconv"
 	"strings"
 
 	"github.com/mitchellh/iochan"
@@ -45,9 +45,8 @@ func createHolidayHashmap(lenses []string) HolidayHashmap {
 		} else {
 			components := strings.Split(lens, "=")
 			label := components[0]
-			focalLengthString := components[1]
-			focalLength, _ := strconv.ParseInt(focalLengthString, 10, 0)
-			holidayHashmap.Insert(label, int(focalLength))
+			focalLength := aoc.MustParseInt(components[1])
+			holidayHashmap.Insert(label, focalLength)
 		}
 	}
 	return holidayHashmap

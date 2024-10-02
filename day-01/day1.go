@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"regexp"
-	"strconv"
 	"unicode"
 )
 
@@ -40,9 +39,7 @@ func numFromLinePart1(line string) int {
 	if firstRune == ' ' {
 		return 0
 	}
-	firstDigit, _ := strconv.ParseInt(string(firstRune), 10, 8)
-	lastDigit, _ := strconv.ParseInt(string(lastRune), 10, 8)
-	return int(firstDigit)*10 + int(lastDigit)
+	return aoc.MustParseDigit(firstRune)*10 + aoc.MustParseDigit(lastRune)
 }
 
 func numFromLinePart2(line string) int {
@@ -70,8 +67,7 @@ func numFromLinePart2(line string) int {
 
 func digitFromMatch(match string) int {
 	if unicode.IsNumber(rune(match[0])) {
-		digit, _ := strconv.ParseInt(match[0:1], 10, 8)
-		return int(digit)
+		return aoc.MustParseInt(match[0:1])
 	}
 	switch match {
 	case "one":
