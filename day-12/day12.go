@@ -62,13 +62,9 @@ func parseInput(f *os.File) []SpringRecord {
 	result := make([]SpringRecord, 0)
 	for line := range aoc.LineReader(f) {
 		components := strings.Split(line, " ")
-		groupsStrings := strings.Split(components[1], ",")
-		groupsSlice := make([]int, len(groupsStrings))
-		for i, g := range groupsStrings {
-			groupsSlice[i] = aoc.MustParseInt(g)
-		}
+		groups := aoc.MustParseListOfNums(components[1], ",")
 		result = append(result, SpringRecord{
-			damagedSpringGroups: groupsSlice,
+			damagedSpringGroups: groups,
 			springs:             []rune(components[0]),
 		})
 	}
