@@ -1,11 +1,9 @@
 package day14
 
 import (
+	"aoc-2023/aoc-lib"
 	"fmt"
 	"os"
-	"strings"
-
-	"github.com/mitchellh/iochan"
 )
 
 func Part1(f *os.File) {
@@ -51,8 +49,8 @@ const EmptySpace = '.'
 
 func parseInput(f *os.File) Grid {
 	result := make([][]rune, 0)
-	for line := range iochan.DelimReader(f, '\n') {
-		result = append(result, []rune(strings.TrimSpace(line)))
+	for line := range aoc.LineReader(f) {
+		result = append(result, []rune(line))
 	}
 	return Grid{result, North}
 }

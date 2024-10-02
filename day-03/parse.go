@@ -1,16 +1,13 @@
 package day3
 
 import (
+	"aoc-2023/aoc-lib"
 	"os"
-	"strings"
-
-	"github.com/mitchellh/iochan"
 )
 
 func readSchematicFromFile(f *os.File) Schematic {
 	var contents [][]rune
-	for line := range iochan.DelimReader(f, '\n') {
-		schematicLine := strings.TrimSpace(line)
+	for schematicLine := range aoc.LineReader(f) {
 		contents = append(contents, []rune(schematicLine))
 	}
 	return Schematic{

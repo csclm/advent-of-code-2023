@@ -5,9 +5,6 @@ import (
 	"os"
 	"regexp"
 	"strconv"
-	"strings"
-
-	"github.com/mitchellh/iochan"
 )
 
 // Returns the area of the simple polygon defined as a list of ordered pairs
@@ -90,8 +87,8 @@ func offsetForOrientation(entryDirection, exitDirection aoc.Vec2, orientationOfS
 func parseInputWithHexInstructions(f *os.File) []DigInstruction {
 	pattern := regexp.MustCompile(`([UDRL]) (\d+) \(#(\w+)\)`)
 	result := make([]DigInstruction, 0)
-	for line := range iochan.DelimReader(f, '\n') {
-		matches := pattern.FindStringSubmatch(strings.TrimSpace(line))
+	for line := range aoc.LineReader(f) {
+		matches := pattern.FindStringSubmatch(line)
 		match := matches[3]
 		distanceNum, _ := strconv.ParseInt(match[0:5], 16, 0)
 		lastDigit := match[5]

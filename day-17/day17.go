@@ -1,12 +1,10 @@
 package day17
 
 import (
+	"aoc-2023/aoc-lib"
 	"fmt"
 	"os"
 	"strconv"
-	"strings"
-
-	"github.com/mitchellh/iochan"
 )
 
 func Part1(f *os.File) {
@@ -46,9 +44,9 @@ func IsFinishingNode(graph ClumsyCrucibleGraph) func(ClumsyCrucibleNode) bool {
 
 func parseInput(f *os.File) [][]int {
 	result := make([][]int, 0)
-	for line := range iochan.DelimReader(f, '\n') {
+	for line := range aoc.LineReader(f) {
 		numLine := make([]int, 0)
-		for _, r := range strings.TrimSpace(line) {
+		for _, r := range line {
 			num, _ := strconv.ParseInt(string([]rune{r}), 10, 0)
 			numLine = append(numLine, int(num))
 		}

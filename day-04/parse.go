@@ -1,16 +1,15 @@
 package day4
 
 import (
+	"aoc-2023/aoc-lib"
 	"os"
 	"regexp"
 	"strconv"
-
-	"github.com/mitchellh/iochan"
 )
 
 func parseInput(f *os.File) []Card {
 	cards := make([]Card, 0)
-	for line := range iochan.DelimReader(f, '\n') {
+	for line := range aoc.LineReader(f) {
 		card := parseCard(line)
 		cards = append(cards, card)
 	}

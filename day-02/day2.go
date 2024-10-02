@@ -1,10 +1,9 @@
 package day2
 
 import (
+	"aoc-2023/aoc-lib"
 	"fmt"
 	"os"
-
-	"github.com/mitchellh/iochan"
 )
 
 type DrawBag struct {
@@ -30,7 +29,7 @@ func Part1(f *os.File) {
 		greens: 13,
 		blues:  14,
 	}
-	for line := range iochan.DelimReader(f, '\n') {
+	for line := range aoc.LineReader(f) {
 		game := parseGame(line)
 		if game.isPossibleWithBag(part1Bag) {
 			sumOfIds += game.id
@@ -41,7 +40,7 @@ func Part1(f *os.File) {
 
 func Part2(f *os.File) {
 	sumOfPowers := 0
-	for line := range iochan.DelimReader(f, '\n') {
+	for line := range aoc.LineReader(f) {
 		game := parseGame(line)
 		sumOfPowers += game.power()
 	}

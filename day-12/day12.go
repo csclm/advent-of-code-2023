@@ -1,12 +1,11 @@
 package day12
 
 import (
+	"aoc-2023/aoc-lib"
 	"fmt"
 	"os"
 	"strconv"
 	"strings"
-
-	"github.com/mitchellh/iochan"
 )
 
 const DamagedSpring = '#'
@@ -62,8 +61,8 @@ func Part2(f *os.File) {
 
 func parseInput(f *os.File) []SpringRecord {
 	result := make([]SpringRecord, 0)
-	for line := range iochan.DelimReader(f, '\n') {
-		components := strings.Split(strings.TrimSpace(line), " ")
+	for line := range aoc.LineReader(f) {
+		components := strings.Split(line, " ")
 		groupsStrings := strings.Split(components[1], ",")
 		groupsSlice := make([]int, len(groupsStrings))
 		for i, g := range groupsStrings {

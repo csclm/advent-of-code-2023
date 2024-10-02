@@ -5,8 +5,6 @@ import (
 	"os"
 	"regexp"
 	"strings"
-
-	"github.com/mitchellh/iochan"
 )
 
 // seeds, almanac
@@ -21,7 +19,7 @@ func parseInput(f *os.File) ([]int, Almanac) {
 		humidityToLocation:    make([]MappingRange, 0),
 	}
 
-	reader := iochan.DelimReader(f, '\n')
+	reader := aoc.LineReader(f)
 	seedsLine := <-reader
 	seeds := parseSeedNums(seedsLine)
 
@@ -29,7 +27,7 @@ func parseInput(f *os.File) ([]int, Almanac) {
 	mappingTitlePattern := regexp.MustCompile(`([\w-]+) map:`)
 
 	for line := range reader {
-		if strings.TrimSpace(line) == "" {
+		if line == "" {
 			continue
 		}
 		mappingTitleMatch := mappingTitlePattern.FindAllStringSubmatch(line, -1)

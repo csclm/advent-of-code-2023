@@ -5,8 +5,6 @@ import (
 	"os"
 	"strings"
 	"unicode"
-
-	"github.com/mitchellh/iochan"
 )
 
 type HandAndBid struct {
@@ -16,14 +14,14 @@ type HandAndBid struct {
 
 func parseInput(f *os.File) []HandAndBid {
 	result := make([]HandAndBid, 0)
-	for line := range iochan.DelimReader(f, '\n') {
+	for line := range aoc.LineReader(f) {
 		result = append(result, parseHandAndBid(line))
 	}
 	return result
 }
 
 func parseHandAndBid(line string) HandAndBid {
-	components := strings.Split(strings.TrimSpace(line), " ")
+	components := strings.Split(line, " ")
 	cards := [5]int{}
 	for i, char := range components[0] {
 		cards[i] = strengthOfRank(char)

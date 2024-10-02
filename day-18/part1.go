@@ -5,10 +5,8 @@ import (
 	"os"
 	"regexp"
 	"strconv"
-	"strings"
 
 	"github.com/golang-collections/collections/queue"
-	"github.com/mitchellh/iochan"
 )
 
 type GroundCell struct {
@@ -129,8 +127,8 @@ func makeGridFromHoles(holes []Hole) [][]GroundCell {
 func parseInput(f *os.File) []DigInstruction {
 	pattern := regexp.MustCompile(`([UDRL]) (\d+) \((#\w+)\)`)
 	result := make([]DigInstruction, 0)
-	for line := range iochan.DelimReader(f, '\n') {
-		match := pattern.FindStringSubmatch(strings.TrimSpace(line))
+	for line := range aoc.LineReader(f) {
+		match := pattern.FindStringSubmatch(line)
 		distanceNum, _ := strconv.ParseInt(match[2], 10, 0)
 		result = append(result, DigInstruction{
 			direction: []rune(match[1])[0],

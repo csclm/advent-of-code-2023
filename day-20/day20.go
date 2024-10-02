@@ -1,12 +1,11 @@
 package day20
 
 import (
+	"aoc-2023/aoc-lib"
 	"fmt"
 	"os"
 	"regexp"
 	"strings"
-
-	"github.com/mitchellh/iochan"
 )
 
 func Part1(f *os.File) {
@@ -42,8 +41,8 @@ func parseInput(f *os.File) ModuleMachineSchema {
 	connections := make(map[string]([]string))
 	moduleTypes := make(map[string]string)
 	pattern := regexp.MustCompile(`([&%]?)(\w+) -> (.*)$`)
-	for line := range iochan.DelimReader(f, '\n') {
-		matches := pattern.FindStringSubmatch(strings.TrimSpace(line))
+	for line := range aoc.LineReader(f) {
+		matches := pattern.FindStringSubmatch(line)
 		moduleType := matches[1]
 		moduleName := matches[2]
 		moduleConnections := strings.Split(matches[3], ", ")

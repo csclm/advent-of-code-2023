@@ -5,10 +5,8 @@ import (
 	"fmt"
 	"os"
 	"slices"
-	"strings"
 
 	"github.com/golang-collections/collections/set"
-	"github.com/mitchellh/iochan"
 )
 
 type Universe struct {
@@ -53,8 +51,8 @@ func parseGalaxies(f *os.File) Universe {
 	galaxies := make([]aoc.Vec2, 0)
 	row := 0
 	width := 0
-	for line := range iochan.DelimReader(f, '\n') {
-		width = len(strings.TrimSpace(line))
+	for line := range aoc.LineReader(f) {
+		width = len(line)
 		for col, r := range line {
 			if r == '#' {
 				galaxies = append(galaxies, aoc.NewVec2(row, col))

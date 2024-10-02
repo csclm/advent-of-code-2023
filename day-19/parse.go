@@ -1,25 +1,24 @@
 package day19
 
 import (
+	"aoc-2023/aoc-lib"
 	"os"
 	"regexp"
 	"strconv"
 	"strings"
-
-	"github.com/mitchellh/iochan"
 )
 
 func parseInput(f *os.File) (map[string]Workflow, []Part) {
 	workflowMap := make(map[string]Workflow, 0)
 	pattern := regexp.MustCompile(`(\w+)\{((?:[xmas][><=]\d+:\w+,)+(?:\w+))\}`)
 
-	lineReader := iochan.DelimReader(f, '\n')
+	lineReader := aoc.LineReader(f)
 
 	for line := range lineReader {
-		if len(strings.TrimSpace(line)) == 0 {
+		if len(line) == 0 {
 			break
 		}
-		matches := pattern.FindStringSubmatch(strings.TrimSpace(line))
+		matches := pattern.FindStringSubmatch(line)
 		workflowName := matches[1]
 		rules := make([]WorkflowRule, 0)
 		workflowComponents := strings.Split(matches[2], ",")

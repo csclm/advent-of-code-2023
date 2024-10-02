@@ -4,11 +4,9 @@ import (
 	"aoc-2023/aoc-lib"
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/golang-collections/collections/queue"
 	"github.com/golang-collections/collections/set"
-	"github.com/mitchellh/iochan"
 )
 
 func Part1(f *os.File) {
@@ -56,9 +54,8 @@ func allEntryRays(width int, height int) chan Ray {
 
 func parseInput(f *os.File) [][]rune {
 	result := make([][]rune, 0)
-	for line := range iochan.DelimReader(f, '\n') {
-		trimmedLine := strings.TrimSpace(line)
-		result = append(result, []rune(trimmedLine))
+	for line := range aoc.LineReader(f) {
+		result = append(result, []rune(line))
 	}
 	return result
 }

@@ -1,18 +1,16 @@
 package day8
 
 import (
+	"aoc-2023/aoc-lib"
 	"os"
 	"regexp"
-	"strings"
-
-	"github.com/mitchellh/iochan"
 )
 
 // network, string of L/R directions
 func parseInput(f *os.File) (Network, string) {
 
-	reader := iochan.DelimReader(f, '\n')
-	instructions := strings.TrimSpace(<-reader)
+	reader := aoc.LineReader(f)
+	instructions := <-reader
 	<-reader // blank line
 
 	nodeNamePattern := regexp.MustCompile(`[A-Z]{3}`)
